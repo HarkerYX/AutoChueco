@@ -39,7 +39,16 @@ LFLAGS  = $(CPU)
 LFLAGS +=  -T$(LINKER)
 LFLAGS += -nostdlib
 LFLAGS += -Wl,--gc-sections
-LFLAGS += -Wl,-Map=Build/$(TARGET).map	# Generate map file 
+LFLAGS += -Wl,-Map=Build/$(TARGET).map	# Generate map file
+
+#Linter ccpcheck flags
+LNFLAGS  = --inline-suppr       # comments to suppress lint warnings
+LNFLAGS += --quiet              # spit only useful information
+LNFLAGS += --std=c99            # check against C11
+LNFLAGS += --template=gcc       # display warning gcc style
+LNFLAGS += --force              # evaluate all the #if sentences
+LNFLAGS += --platform=unix32    # lint againt a unix32 platform, but we are using arm32
+LNFLAGS += --cppcheck-build-dir=Build/checks
 
 #---Build target
 OBJS = $(SRCS:%.c=Build/obj/%.o)
@@ -48,7 +57,7 @@ FILES  = $(shell find *.[ch])
 VPATH = $(SRC_PATHS)
 INCLS = $(addprefix -I ,$(INC_PATHS))
 
-all : format build $(TARGET)
+all : format lint build $(TARGET)
 
 $(TARGET) : $(addprefix Build/, $(TARGET).elf)
 	llvm-objdump -S -h $< > Build/$(TARGET).lst
@@ -60,7 +69,7 @@ Build/$(TARGET).elf : $(OBJS)
 Build/obj/%.o : %.c
 	$(TOOLCHAIN) $(CFLAGS) $(INCLS) -c $< -o $@
 
-.PHONY : build clean
+.PHONY : build clean lint
 #---remove binary files
 clean :
 	rm -r Build
@@ -70,3 +79,7 @@ build :
 
 format :
 	clang-format -style=file -i --Werror $(FILES)
+
+lint :
+	mkdir -p Build/checks
+	cppcheck --addon=misra.json --suppressions-list=.msupress $(LNFLAGS) .
