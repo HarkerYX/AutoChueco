@@ -44,10 +44,11 @@ LFLAGS += -Wl,-Map=Build/$(TARGET).map	# Generate map file
 #---Build target
 OBJS = $(SRCS:%.c=Build/obj/%.o)
 DEPS = $(OBJS:%.o=%.d)
+FILES  = $(shell find *.[ch])
 VPATH = $(SRC_PATHS)
 INCLS = $(addprefix -I ,$(INC_PATHS))
 
-all : build $(TARGET)
+all : format build $(TARGET)
 
 $(TARGET) : $(addprefix Build/, $(TARGET).elf)
 	llvm-objdump -S -h $< > Build/$(TARGET).lst
@@ -66,3 +67,6 @@ clean :
 #---Create output directory
 build :
 	mkdir -p Build/obj
+
+format :
+	clang-format -style=file -i --Werror $(FILES)
