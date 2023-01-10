@@ -1,0 +1,7 @@
+// cppcheck does not have a suitable way to ignore certain files if a path is not given, niether to 
+// ignore a specific misra warning in a entire file. This file was created to somehow workaraund
+// this issue
+
+comparePointers:startup.c
+misra-c2012-8.4:startup.c
+
