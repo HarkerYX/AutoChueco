@@ -59,6 +59,8 @@ boolean Bfx_GetBit_u8u8_u8( uint8 Data, uint8 BitPn )
 {
     (void)Data;
     (void)BitPn;
+
+    return FALSE;
 }
 
 /**
@@ -103,7 +105,9 @@ uint8 Bfx_GetBits_u8u8u8_u8( uint8 Data, uint8 BitStartPn, uint8 BitLn )
 {
     (void)Data;
     (void)BitStartPn;
-    (void)BitLn;    
+    (void)BitLn;
+
+    return 0u;  
 }
 
 /**
@@ -164,7 +168,9 @@ void Bfx_ClrBitMask_u8u8( uint8 *Data, uint8 Mask )
 boolean Bfx_TstBitMask_u8u8_u8( uint8 Data, uint8 Mask )
 {
     (void)Data;
-    (void)Mask;    
+    (void)Mask;
+
+    return FALSE;    
 }
 
 /**
@@ -185,7 +191,9 @@ boolean Bfx_TstBitMask_u8u8_u8( uint8 Data, uint8 Mask )
 boolean Bfx_TstBitLnMask_u8u8_u8( uint8 Data, uint8 Mask )
 {
     (void)Data;
-    (void)Mask;     
+    (void)Mask; 
+
+    return FALSE;    
 }
 
 /**
@@ -204,7 +212,9 @@ boolean Bfx_TstBitLnMask_u8u8_u8( uint8 Data, uint8 Mask )
  */
 boolean Bfx_TstParityEven_u8_u8( uint8 Data )
 {
-    (void)Data;     
+    (void)Data;
+
+    return FALSE;     
 }
 
 /**
@@ -454,7 +464,9 @@ void Bfx_PutBit_u8u8u8( uint8* Data, uint8 BitPn, boolean Status )
 sint8 Bfx_ShiftBitSat_s8s8( sint8 ShiftCnt, sint8 Data )
 {
     (void)Data;
-    (void)ShiftCnt; 
+    (void)ShiftCnt;
+
+    return 0; 
 }
 
 /**
@@ -474,6 +486,8 @@ sint8 Bfx_ShiftBitSat_s8s8( sint8 ShiftCnt, sint8 Data )
 uint8 Bfx_CountLeadingOnes_u8( uint8 Data )
 {
     (void)Data;
+
+    return 0; 
 }
 
 /**
@@ -494,6 +508,8 @@ uint8 Bfx_CountLeadingOnes_u8( uint8 Data )
 uint8 Bfx_CountLeadingSigns_s8( sint8 Data )
 {
     (void)Data;
+
+    return 0; 
 }
 
 /**
@@ -513,5 +529,7 @@ uint8 Bfx_CountLeadingSigns_s8( sint8 Data )
 uint8 Bfx_CountLeadingZeros_u8( uint8 Data )
 {
     (void)Data; 
+
+    return 0; 
 }
 
