@@ -12,6 +12,7 @@
 #ifndef PLATFORM_TYPES_H
 #define PLATFORM_TYPES_H
 
+#include <stdbool.h>
 
 /**
  * @name   CPU_Types
