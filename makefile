@@ -69,7 +69,7 @@ Build/$(TARGET).elf : $(OBJS)
 Build/obj/%.o : %.c
 	$(TOOLCHAIN) $(CFLAGS) $(INCLS) -c $< -o $@
 
-.PHONY : build clean lint
+.PHONY : build clean lint docs
 #---remove binary files
 clean :
 	rm -r Build
@@ -83,3 +83,13 @@ format :
 lint :
 	mkdir -p Build/checks
 	cppcheck --addon=misra.json --suppressions-list=.msupress $(LNFLAGS) .
+
+docs :
+	mkdir -p Build/doxygen 
+	mkdir -p Build/sphinx 
+	mkdir -p Build/sphinx/_template 
+	mkdir -p Build/sphinx/_static 
+	mkdir -p Build/sphinx/_build
+	doxygen .doxyfile
+	sphinx-build -b html Docs Build/sphinx/_build -c ./ -W
+	firefox Build/sphinx/_build/index.html
