@@ -1,3 +1,17 @@
+/**
+ * @file    Bfx_bit8.c
+ * @brief   **Specification of 8 Bit Handling Routines**
+ *
+ * AUTOSAR Library routines are the part of system services in AUTOSAR architecture and below figure 
+ * shows position of AUTOSAR library in layered architecture.
+ *
+ * Bfx routines specification specifies the functionality, API and the configuration of the AUTOSAR 
+ * library for BIT functionality dedicated to fixed-point arithmetic routines All bit functions are 
+ * re-entrant and can handle several simultaneous requests from the application.
+ *
+ * https://www.autosar.org/fileadmin/standards/classic/22-11/AUTOSAR_SWS_BFXLibrary.pdf
+ * 
+ */
 #include "Std_Types.h"
 #include "Bfx_bit8.h"
 
@@ -6,14 +20,15 @@
  * 
  * Sets the logical status of an 8 bits input data as 1 at the requested bit postion.
  * 
- * Example:
+ * **Example:**
+ *      @code 
  *      Data = 10001010b 
  *      Bfx_SetBit_u8u8(&Data, 2);
- *      
  *      The Data will be updated to 10001110b
+ *      @endcode
  * 
- * @param  Data Pointer to input data
- * @param  BitPn Bit position
+ * @param[inout]  Data Pointer to input data
+ * @param[in]  BitPn Bit position
  */
 void Bfx_SetBit_u8u8( uint8 *Data, uint8 BitPn )
 {
@@ -26,14 +41,15 @@ void Bfx_SetBit_u8u8( uint8 *Data, uint8 BitPn )
  * 
  * Clears the logical status of an 8 bit input data as 0 at the requested bit postion.
  * 
- * Example: 
+ * **Example:**
+ *      @code
  *      Data = 10001010b 
  *      Bfx_ClrBit_u8u8(&Data, 1); 
- *      
  *      The Data will be updated to 10001000b
+ *      @endcode
  * 
- * @param  Data Pointer to inpur data
- * @param  BitPn Bit position
+ * @param[inout]  Data Pointer to inpur data
+ * @param[in]  BitPn Bit position
  */
 void Bfx_ClrBit_u8u8( uint8 *Data, uint8 BitPn )
 {
@@ -46,12 +62,14 @@ void Bfx_ClrBit_u8u8( uint8 *Data, uint8 BitPn )
  * 
  * Returns the logical status of the 8 bit input data for the requested bit position.
  * 
- * Example: 
+ * **Example:**
+ *      @code 
  *      Bit = Bfx_GetBit_u8u8(10001010b, 1);
  *      Bit will be equal to TRUE
+ *      @endcode
  * 
- * @param Data Input data  
- * @param BitPn Bit position
+ * @param[in] Data Input data  
+ * @param[in] BitPn Bit position
  * 
  * @retval Boolean Bit status
  */
@@ -68,15 +86,17 @@ boolean Bfx_GetBit_u8u8_u8( uint8 Data, uint8 BitPn )
  * 
  * Sets the input data as 1 or 0 as per Status value starting from BitStartPn for the length BitLn.
  * 
- * For Example: 
+ * **Example:**
+ *      @code 
  *      Data = 00000111b 
  *      Bfx_SetBits_u8u8u8u8(&Data, 4, 3, 1); 
  *      The Data will be updated to 11110111b
+ *      @endcode
  * 
- * @param  Data Pointer to input Data
- * @param  BitStartPn Start bit position
- * @param  BitLn Bit field length
- * @param  Status Status value
+ * @param[inout]  Data Pointer to input Data
+ * @param[in]  BitStartPn Start bit position
+ * @param[in]  BitLn Bit field length
+ * @param[in]  Status Status value
  */
 void Bfx_SetBits_u8u8u8u8( uint8 *Data, uint8 BitStartPn, uint8 BitLn, uint8 Status )
 {
@@ -91,13 +111,15 @@ void Bfx_SetBits_u8u8u8u8( uint8 *Data, uint8 BitStartPn, uint8 BitLn, uint8 Sta
  * 
  * Returns the Bits of the input data starting from BitStartPn for the length of BitLn. 
  * 
- * Example: 
+ * **Example:**
+ *      @code 
  *      Data = Bfx_GetBits_u8u8u8_u8(01100111b, 4, 3) 
  *      data will be equal to 00000110b
+ *      @endcode
  * 
- * @param  Data Input Data
- * @param  BitStartPn Start bit position
- * @param  BitLn Bit field length
+ * @param[in]  Data Input Data
+ * @param[in]  BitStartPn Start bit position
+ * @param[in]  BitLn Bit field length
  * 
  * @retval uint8 Bit field sequence
  */
@@ -116,13 +138,15 @@ uint8 Bfx_GetBits_u8u8u8_u8( uint8 Data, uint8 BitStartPn, uint8 BitLn )
  * Set the data to logical status '1' as per the corresponding Mask bits when set to value 1 and 
  * remaining bits will retain their original values.
  * 
- * Example: 
+ * **Example:**
+ *      @code 
  *      Data = 01100111b
  *      SetBitMask_u8u8(&Data, 11110000b) 
  *      Data will be equal to 11110111b
+ *      @endcode
  * 
- * @param Data Pointer to input Data 
- * @param Mask Mask used to set bits
+ * @param[inout] Data Pointer to input Data 
+ * @param[in] Mask Mask used to set bits
  */
 void SetBitMask_u8u8( uint8 *Data, uint8 Mask )
 {
@@ -136,13 +160,15 @@ void SetBitMask_u8u8( uint8 *Data, uint8 Mask )
   * Clears the data to logical status 0 as per the corresponding mask bits value when set to 1.The 
   * remaining bits shall retain their original values.
   * 
-  * Example: 
+  * **Example:**
+  *      @code
   *      Data = 01100111b
   *      Bfx_ClrBitMask_u8u8(&Data, 11110000b) 
   *      Data will be equal to 00000111b
+  *      @endcode
   * 
-  * @param Data Pointer to input Data 
-  * @param Mask Mask value
+  * @param[inout] Data Pointer to input Data 
+  * @param[in] Mask Mask value
   */
 void Bfx_ClrBitMask_u8u8( uint8 *Data, uint8 Mask )
 {
@@ -156,12 +182,14 @@ void Bfx_ClrBitMask_u8u8( uint8 *Data, uint8 Mask )
  * Returns 1 if all bits defined in Mask value are set in the input Data value. In all other cases 
  * this function shall return 0.
  * 
- * Example: 
+ * **Example:**
+ *      @code
  *      Res = Bfx_TstBitMask_u8u8_u8(10010011b,10010000b) 
  *      Res will equal to TRUE.
+ *      @endcode
  * 
- * @param Data Input Data 
- * @param Mask Mask value
+ * @param[in] Data Input Data 
+ * @param[in] Mask Mask value
  * 
  * @retval Boolean Value
  */
@@ -179,12 +207,14 @@ boolean Bfx_TstBitMask_u8u8_u8( uint8 Data, uint8 Mask )
  * Makes a test on the input data and if at least one bit is set as per the mask, then the function 
  * shall return TRUE, otherwise it shall return FALSE.
  * 
- * Example: 
+ * **Example:**
+ *      @code
  *      Res = Bfx_TstBitLnMask_u8u8_u8(10010011b,00010000b) 
  *      Res will equal to TRUE.
+ *      @endcode
  * 
- * @param Data Input Data 
- * @param Mask Mask value
+ * @param[in] Data Input Data 
+ * @param[in] Mask Mask value
  * 
  * @retval Boolean Value
  */
@@ -202,11 +232,13 @@ boolean Bfx_TstBitLnMask_u8u8_u8( uint8 Data, uint8 Mask )
  * Tests the number of bits set to 1. If this number is even, it shall return TRUE, otherwise it 
  * returns FALSE.
  * 
- * Example: 
+ * **Example:**
+ *      @code
  *      Res = Bfx_TstParityEven_u8_u8(01010000b) 
  *      Res will equal to TRUE.
+ *      @endcode
  * 
- * @param Data Input Data 
+ * @param[in] Data Input Data 
  * 
  * @retval Boolean Value
  */
@@ -222,12 +254,14 @@ boolean Bfx_TstParityEven_u8_u8( uint8 Data )
  * 
  * Toggles all the bits of data (1's Complement Data).
  * 
- * Example: 
+ * **Example:**
+ *      @code
  *      Data = 01010001b
  *      Bfx_ToggleBits_u8(&Data) 
  *      Data will equal to 10101110b.
+ *      @endcode
  * 
- * @param Data Pointer to input Data 
+ * @param[inout] Data Pointer to input Data 
  */
 void Bfx_ToggleBits_u8( uint8 *Data )
 {
@@ -239,13 +273,15 @@ void Bfx_ToggleBits_u8( uint8 *Data )
  * 
  * This function toggles the bits of data when the corresponding bit of the mask is enabled and set to 1.
  * 
- * Example: 
+ * **Example:**
+ *      @code 
  *      Data = 01010001b
  *      Bfx_ToggleBitMask_u8u8(&Data, 11000011b) 
  *      Data will equal to 10010010b.
+ *      @endcode
  * 
- * @param Data Pointer to input Data 
- * @param Mask Mask 
+ * @param[inout] Data Pointer to input Data 
+ * @param[in] Mask Mask 
  */
 void Bfx_ToggleBitMask_u8u8( uint8 *Data, uint8 Mask )
 {
@@ -260,13 +296,15 @@ void Bfx_ToggleBitMask_u8u8( uint8 *Data, uint8 Mask )
  * replaced by a ’0’ bit and the least significant bit (right-most bit) is discarded for every single bit
  * shift cycle.
  * 
- * Example: 
+ * **Example:**
+ *      @code
  *      Data = 01010001b
  *      Bfx_ShiftBitRt_u8u8(&Data, 3) 
  *      Data will equal to 00001010b.
+ *      @endcode
  * 
- * @param Data Pointer to input Data 
- * @param ShiftCnt Shift right count 
+ * @param[inout] Data Pointer to input Data 
+ * @param[in] ShiftCnt Shift right count 
  */
 void Bfx_ShiftBitRt_u8u8( uint8 *Data, uint8 ShiftCnt )
 {
@@ -281,13 +319,15 @@ void Bfx_ShiftBitRt_u8u8( uint8 *Data, uint8 ShiftCnt )
  * replaced by a ’0’ bit and the most significant bit (left-most bit) is discarded for every single bit
  * shift cycle.
  * 
- * Example: 
+ * **Example:**
+ *      @code 
  *      Data = 01010001b
  *      Bfx_ShiftBitLt_u8u8(&Data, 3) 
  *      Data will equal to 10001000b.
+ *      @endcode
  * 
- * @param Data Pointer to input Data 
- * @param ShiftCnt Shift left count 
+ * @param[inout] Data Pointer to input Data 
+ * @param[in] ShiftCnt Shift left count 
  */
 void Bfx_ShiftBitLt_u8u8( uint8 *Data, uint8 ShiftCnt )
 {
@@ -301,7 +341,8 @@ void Bfx_ShiftBitLt_u8u8( uint8 *Data, uint8 ShiftCnt )
  * This function shall rotate data to the right by ShiftCnt. The least significant bit is rotated to the
  * most significant bit location for every single bit shift cycle.
  * 
- * Example:
+ * **Example:**
+ *      @code
  *      If ShiftCnt = 1 then,
  *      uint8 Data = 0001 0111 (before rotate right)
  *      Data = 1000 1011 (after rotate right)
@@ -309,9 +350,10 @@ void Bfx_ShiftBitLt_u8u8( uint8 *Data, uint8 ShiftCnt )
  *      If ShiftCnt = 3 then,
  *      uint8 Data = 0001 0111 (before rotate right)
  *      Data = 1110 0010 (after rotate right)
+ *      @endcode
  * 
- * @param Data Pointer to input Data 
- * @param ShiftCnt Shift right count 
+ * @param[inout] Data Pointer to input Data 
+ * @param[in] ShiftCnt Shift right count 
  */
 void Bfx_RotBitRt_u8u8( uint8 *Data, uint8 ShiftCnt)
 {
@@ -325,7 +367,8 @@ void Bfx_RotBitRt_u8u8( uint8 *Data, uint8 ShiftCnt)
  * This function shall rotate data to the left by ShiftCnt. The most significant bit is rotated to the
  * least significant bit location for every single bit shift cycle
  * 
- * Example:
+ * **Example:**
+ *      @code
  *      If ShiftCnt = 1 then,
  *      uint8 Data = 1011 0111 (before rotate left)
  *      Data = 0110 1111 (after rotate left)
@@ -333,9 +376,10 @@ void Bfx_RotBitRt_u8u8( uint8 *Data, uint8 ShiftCnt)
  *      If ShiftCnt = 3 then,
  *      uint8 Data = 1011 0111 (before rotate left)
  *      Data = 1011 1101 (after rotate left)
+ *      @endcode
  * 
- * @param Data Pointer to input Data 
- * @param ShiftCnt Shift left count 
+ * @param[inout] Data Pointer to input Data 
+ * @param[in] ShiftCnt Shift left count 
  */
 void Bfx_RotBitLt_u8u8( uint8 *Data, uint8 ShiftCnt)
 {
@@ -344,20 +388,22 @@ void Bfx_RotBitLt_u8u8( uint8 *Data, uint8 ShiftCnt)
 }
 
 /**
- * @brief  **8 bit Copy bitst**
+ * @brief  **8 bit Copy bits**
  * 
  * This function shall copy a bit from source data from bit position to destination data at bit
  * position.
  * 
- * Example:
+ * **Example:**
+ *      @code
  *      DestinationData = 10100001b
  *      BFX_CopyBit_u8u8u8u8(&DestinationData, 6, 11011010, 1)
  *      The DestinationData will have 11100001b
+ *      @endcode
  * 
- * @param DestinationData Pointer to destination data
- * @param DestinationPosition Destination position
- * @param SourceData Source data
- * @param SourcePosition Source position 
+ * @param[inout] DestinationData Pointer to destination data
+ * @param[in] DestinationPosition Destination position
+ * @param[in] SourceData Source data
+ * @param[in] SourcePosition Source position 
  */
 void Bfx_CopyBit_u8u8u8u8( uint8* DestinationData, uint8 DestinationPosition, uint8 SourceData, uint8 SourcePosition)
 {
@@ -373,15 +419,17 @@ void Bfx_CopyBit_u8u8u8u8( uint8* DestinationData, uint8 DestinationPosition, ui
  * This function shall put bits as mentioned in Pattern to the input Data from the specified bit
  * position.
  * 
- * Example:
+ * **Example:**
+ *      @code
  *      Data = 11110000b
  *      Bfx_PutBits_u8u8u8u8(&Data, 1, 3, 00000011b)
  *      The Data will have 11110110b
+ *      @endcode
  * 
- * @param Data Pointer to input data
- * @param BitStartPn Start bit position
- * @param BitLn Bit field length
- * @param Pattern Pattern to be set
+ * @param[inout] Data Pointer to input data
+ * @param[in] BitStartPn Start bit position
+ * @param[in] BitLn Bit field length
+ * @param[in] Pattern Pattern to be set
  */
 void Bfx_PutBits_u8u8u8u8( uint8* Data, uint8 BitStartPn, uint8 BitLn, uint8 Pattern )
 {
@@ -397,14 +445,16 @@ void Bfx_PutBits_u8u8u8u8( uint8* Data, uint8 BitStartPn, uint8 BitLn, uint8 Pat
  * This function shall put bits as mentioned in Pattern to the input Data from the specified bit
  * position.
  * 
- * Example:
+ * **Example:**
+ *      @code
  *      Data = 11100000b
  *      Bfx_PutBitsMask_u8u8u8(&Data, 11001101b, 00001111b)
  *      results in Data = 11101101b
+ *      @endcode
  * 
- * @param Data Pointer to input data
- * @param Pattern Pattern to be set
- * @param Mask Mask value
+ * @param[inout] Data Pointer to input data
+ * @param[in] Pattern Pattern to be set
+ * @param[in] Mask Mask value
  */
 void Bfx_PutBitsMask_u8u8u8( uint8* Data, uint8 Pattern, uint8 Mask )
 {
@@ -419,14 +469,16 @@ void Bfx_PutBitsMask_u8u8u8( uint8* Data, uint8 Pattern, uint8 Mask )
  * This function shall update the bit specified by BitPn of input data as ’1’ or ’0’ as per ’Status’
  * value.
  * 
- * Example:
+ * **Example:**
+ *      @code
  *      uint8 InputData = 11100111b;
  *      Bfx_PutBit_u8u8u8(&InputData, 4, TRUE);
  *      results in InputData = 11110111b
+ *      @endcode
  * 
- * @param Data Pointer to destination data
- * @param BitPn Destination position
- * @param Status Source data
+ * @param[inout] Data Pointer to destination data
+ * @param[in] BitPn Destination position
+ * @param[in] Status Source data
  */
 void Bfx_PutBit_u8u8u8( uint8* Data, uint8 BitPn, boolean Status )
 {
@@ -451,13 +503,15 @@ void Bfx_PutBit_u8u8u8( uint8* Data, uint8 BitPn, boolean Status )
  * Note that a shift right by the word width leaves all zeros or all ones in the result, de-
  * pending on the sign-bit.
  *
- * Example:
- * a 32 bit signed integer: The range for shift count is -32 to +31, allowing a
- * shift left up to 31 bit positions and a shift right up to 32 bit positions (a shift right by 32
- * bits leaves all zeros or all ones in the result, depending on the sign bit)
+ * **Example:**
+ *      @code
+ *      a 32 bit signed integer: The range for shift count is -32 to +31, allowing a shift left 
+ *      up to 31 bit positions and a shift right up to 32 bit positions (a shift right by 32
+ *      bits leaves all zeros or all ones in the result, depending on the sign bit)
+ *      @endcode
  * 
- * @param ShiftCnt Shift count (-<MaxShiftRight> ... -1: right, 1 ... <MaxShiftLeft>:left)
- * @param Data Input value
+ * @param[in] ShiftCnt Shift count (-MaxShiftRight ... -1: right, 1 ... MaxShiftLeft:left)
+ * @param[in] Data Input value
  * 
  * @retval Shifted and saturated bit pattern.
  */
@@ -475,11 +529,13 @@ sint8 Bfx_ShiftBitSat_s8s8( sint8 ShiftCnt, sint8 Data )
  * Count the number of consecutive ones in Data starting with the most significant bit and return
  * the result.
  * 
- * Example:
+ * **Example:**
+ *      @code
  *      Res = Bfx_CountLeadingOnes_u8(11100110b);
  *      Res is equal to 3
+ *      @endcode
  * 
- * @param Data Input data
+ * @param[in] Data Input data
  *
  * @retval Bit position
  */
@@ -497,11 +553,13 @@ uint8 Bfx_CountLeadingOnes_u8( uint8 Data )
  * starting with bit at position msb minus one. Put the result in Data. It is the number of leading
  * sign bits minus one, giving the number of redundant sign bits in Data
  * 
- * Example:
+ * **Example:**
+ *      @code
  *      Res = Bfx_CountLeadingSigns_s8(11100110b);
  *      Res is equal to 2
+ *      @endcode
  * 
- * @param Data Input data
+ * @param[in] Data Input data
  *
  * @retval Bit position
  */
@@ -518,11 +576,13 @@ uint8 Bfx_CountLeadingSigns_s8( sint8 Data )
  * Count the number of consecutive zeros in Data starting with the most significant bit and return
  * the result
  * 
- * Example:
+ * **Example:**
+ *      @code
  *      Res = Bfx_CountLeadingZeros_u8(00100110b);
  *      Res is equal to 2
+ *      @endcode
  * 
- * @param Data Input data
+ * @param[in] Data Input data
  *
  * @retval Bit position
  */

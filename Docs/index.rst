@@ -31,3 +31,4 @@ the following tools. **NOTE:** we currently support Arch Linux only.
     :maxdepth: 1
     :caption: Contents:
 
+    Bfx_bit8
