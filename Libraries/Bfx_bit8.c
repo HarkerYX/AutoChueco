@@ -29,8 +29,7 @@
  */
 void Bfx_SetBit_u8u8( uint8 *Data, uint8 BitPn )
 {
-    (void)Data;
-    (void)BitPn;
+    *Data |= ( 1u << BitPn );
 }
 
 /**
@@ -50,8 +49,7 @@ void Bfx_SetBit_u8u8( uint8 *Data, uint8 BitPn )
  */
 void Bfx_ClrBit_u8u8( uint8 *Data, uint8 BitPn )
 {
-    (void)Data;
-    (void)BitPn;
+    *Data &= ~( 1u << BitPn );
 }
 
 /**
