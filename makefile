@@ -53,7 +53,7 @@ LNFLAGS += --cppcheck-build-dir=Build/checks
 #---Build target
 OBJS = $(SRCS:%.c=Build/obj/%.o)
 DEPS = $(OBJS:%.o=%.d)
-FILES  = $(shell find *.[ch])
+FILES  = $(shell find ./ -type f -name "*.[ch]")
 VPATH = $(SRC_PATHS)
 INCLS = $(addprefix -I ,$(INC_PATHS))
 
@@ -69,7 +69,7 @@ Build/$(TARGET).elf : $(OBJS)
 Build/obj/%.o : %.c
 	$(TOOLCHAIN) $(CFLAGS) $(INCLS) -c $< -o $@
 
-.PHONY : build clean lint docs
+.PHONY : build clean lint docs format
 #---remove binary files
 clean :
 	rm -r Build
