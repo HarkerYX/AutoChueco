@@ -95,7 +95,7 @@ format :
 
 lint :
 	mkdir -p Build/checks
-	cppcheck --addon=misra.json --suppressions-list=.msupress $(LNFLAGS) .  -iUtest/unity
+	cppcheck --addon=misra.json --suppressions-list=.msupress $(LNFLAGS) .  -iUtest
 
 #unit testing setup, this is a temporary solution since we planned to use the full ceedling framework
 utest : build format $(RSLST)
