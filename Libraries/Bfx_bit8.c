@@ -140,7 +140,7 @@ uint8 Bfx_GetBits_u8u8u8_u8( uint8 Data, uint8 BitStartPn, uint8 BitLn )
     uint8 Bits;
 
     Bits = Data >> BitStartPn;
-    Bits &= ~( 0xFF << ( BitStartPn + BitLn ) );
+    Bits &= ~( 0xFF << ( BitLn ) );
 
     return Bits;
 }
@@ -206,14 +206,7 @@ void Bfx_ClrBitMask_u8u8( uint8 *Data, uint8 Mask )
  */
 boolean Bfx_TstBitMask_u8u8_u8( uint8 Data, uint8 Mask )
 {
-    boolean Tst = FALSE;
-
-    if( ( Data & Mask ) == Mask )
-    {
-        Tst = TRUE;
-    }
-
-    return Tst;
+    return ( ( Data & Mask ) == Mask );
 }
 
 /**
@@ -235,14 +228,7 @@ boolean Bfx_TstBitMask_u8u8_u8( uint8 Data, uint8 Mask )
  */
 boolean Bfx_TstBitLnMask_u8u8_u8( uint8 Data, uint8 Mask )
 {
-    boolean Tst = FALSE;
-
-    if( ( Data & Mask ) != 0u )
-    {
-        Tst = TRUE;
-    }
-
-    return Tst;
+    return ( ( Data & Mask ) != 0u );
 }
 
 /**
@@ -263,23 +249,17 @@ boolean Bfx_TstBitLnMask_u8u8_u8( uint8 Data, uint8 Mask )
  */
 boolean Bfx_TstParityEven_u8_u8( uint8 Data )
 {
-    uint8 Count    = 0;
-    boolean Parity = FALSE;
+    uint8 Count = 0;
 
     for( uint8 i = 0u; i < sizeof( Data ) * 8u; i++ )
     {
-        if( ( ~( 1u << i ) & Data ) != 0u )
+        if( ( ( 1u << i ) & Data ) != 0u )
         {
             Count++;
         }
     }
 
-    if( ( Count % 2u ) == 0u )
-    {
-        Parity = FALSE;
-    }
-
-    return Parity;
+    return ( ( Count % 2u ) == 0u );
 }
 
 /**
