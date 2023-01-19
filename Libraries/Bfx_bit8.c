@@ -367,8 +367,7 @@ void Bfx_ShiftBitLt_u8u8( uint8 *Data, uint8 ShiftCnt )
  */
 void Bfx_RotBitRt_u8u8( uint8 *Data, uint8 ShiftCnt )
 {
-    (void)Data;
-    (void)ShiftCnt;
+    *Data = ( *Data << ( 8u - ShiftCnt ) ) | ( *Data >> ShiftCnt );
 }
 
 /**
@@ -393,8 +392,7 @@ void Bfx_RotBitRt_u8u8( uint8 *Data, uint8 ShiftCnt )
  */
 void Bfx_RotBitLt_u8u8( uint8 *Data, uint8 ShiftCnt )
 {
-    (void)Data;
-    (void)ShiftCnt;
+    *Data = ( *Data >> ( 8u - ShiftCnt ) ) | ( *Data << ShiftCnt );
 }
 
 /**
@@ -417,10 +415,14 @@ void Bfx_RotBitLt_u8u8( uint8 *Data, uint8 ShiftCnt )
  */
 void Bfx_CopyBit_u8u8u8u8( uint8 *DestinationData, uint8 DestinationPosition, uint8 SourceData, uint8 SourcePosition )
 {
-    (void)DestinationData;
-    (void)DestinationPosition;
-    (void)SourceData;
-    (void)SourcePosition;
+    if( ( SourceData & ( 1u << SourcePosition ) ) == 0u )
+    {
+        *DestinationData &= ~( 1u << DestinationPosition );
+    }
+    else
+    {
+        *DestinationData |= ( 1u << DestinationPosition );
+    }
 }
 
 /**
@@ -443,10 +445,10 @@ void Bfx_CopyBit_u8u8u8u8( uint8 *DestinationData, uint8 DestinationPosition, ui
  */
 void Bfx_PutBits_u8u8u8u8( uint8 *Data, uint8 BitStartPn, uint8 BitLn, uint8 Pattern )
 {
-    (void)Data;
-    (void)BitStartPn;
-    (void)BitLn;
-    (void)Pattern;
+    uint8 Mask = ( 0xFFu << ( BitLn + BitStartPn ) ) | ~( 0xFFu << BitStartPn );
+
+    *Data &= Mask;
+    *Data |= ( Pattern << BitLn );
 }
 
 /**
@@ -468,9 +470,7 @@ void Bfx_PutBits_u8u8u8u8( uint8 *Data, uint8 BitStartPn, uint8 BitLn, uint8 Pat
  */
 void Bfx_PutBitsMask_u8u8u8( uint8 *Data, uint8 Pattern, uint8 Mask )
 {
-    (void)Data;
-    (void)Mask;
-    (void)Pattern;
+    *Data = ( ( Pattern & Mask ) | ( *Data & ~Mask ) );
 }
 
 /**
@@ -492,9 +492,14 @@ void Bfx_PutBitsMask_u8u8u8( uint8 *Data, uint8 Pattern, uint8 Mask )
  */
 void Bfx_PutBit_u8u8u8( uint8 *Data, uint8 BitPn, boolean Status )
 {
-    (void)Data;
-    (void)BitPn;
-    (void)Status;
+    if( Status == TRUE )
+    {
+        *Data |= ( 1u << BitPn );
+    }
+    else
+    {
+        *Data &= ~( 1u << BitPn );
+    }
 }
 
 /**
@@ -527,9 +532,8 @@ void Bfx_PutBit_u8u8u8( uint8 *Data, uint8 BitPn, boolean Status )
  */
 sint8 Bfx_ShiftBitSat_s8s8( sint8 ShiftCnt, sint8 Data )
 {
-    (void)Data;
     (void)ShiftCnt;
-
+    (void)Data;
     return 0;
 }
 
@@ -551,9 +555,18 @@ sint8 Bfx_ShiftBitSat_s8s8( sint8 ShiftCnt, sint8 Data )
  */
 uint8 Bfx_CountLeadingOnes_u8( uint8 Data )
 {
-    (void)Data;
+    uint8 Count = 0u;
 
-    return 0;
+    for( uint8 i = 7u; i < 8u; i-- )
+    {
+        if( ( Data & ( 1u << i ) ) == 0u )
+        {
+            break;
+        }
+        Count++;
+    }
+
+    return Count;
 }
 
 /**
@@ -575,9 +588,18 @@ uint8 Bfx_CountLeadingOnes_u8( uint8 Data )
  */
 uint8 Bfx_CountLeadingSigns_s8( sint8 Data )
 {
-    (void)Data;
+    uint8 Count = 0u;
 
-    return 0;
+    for( uint8 i = 6u; i < 8u; i-- )
+    {
+        if( ( Data & ( 1u << i ) ) == 0u )
+        {
+            break;
+        }
+        Count++;
+    }
+
+    return Count;
 }
 
 /**
@@ -598,7 +620,16 @@ uint8 Bfx_CountLeadingSigns_s8( sint8 Data )
  */
 uint8 Bfx_CountLeadingZeros_u8( uint8 Data )
 {
-    (void)Data;
+    uint8 Count = 0u;
 
-    return 0;
+    for( uint8 i = 7u; i < 8u; i-- )
+    {
+        if( ( Data & ( 1u << i ) ) != 0u )
+        {
+            break;
+        }
+        Count++;
+    }
+
+    return Count;
 }
