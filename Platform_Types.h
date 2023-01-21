@@ -68,7 +68,7 @@
 #endif
 
 #ifndef FALSE
-#define FLASE 0 /*!< Boolean representation of false */
+#define FALSE 0 /*!< Boolean representation of false */
 #endif
 /**@}*/
 

@@ -4,19 +4,21 @@ TARGET = mcal
 #---Files to compile
 SRCS = main.c startup.c
 #---Actual fremawork sources
-SRCF = demo.c demo2.c
+SRCF = Bfx_bit8.c
 #---Unit testing files
-SRCT = unity.c Test_demo.c Test_demo2.c
+SRCT = unity.c
 
 #---Linker script
 LINKER = linker.ld
 
 #directorios con archivos a compilar (.c y .s)
 SRC_PATHS  = .
+SRC_PATHS += Libraries
 SRC_PATHS += Utest
 SRC_PATHS += Utest/unity
 #direcotrios con archivos .h
 INC_PATHS  = .
+INC_PATHS += Libraries
 INC_PATHS += Utest
 INC_PATHS += Utest/unity
 
@@ -93,7 +95,7 @@ format :
 
 lint :
 	mkdir -p Build/checks
-	cppcheck --addon=misra.json --suppressions-list=.msupress $(LNFLAGS) .
+	cppcheck --addon=misra.json --suppressions-list=.msupress $(LNFLAGS) .  -iUtest
 
 #unit testing setup, this is a temporary solution since we planned to use the full ceedling framework
 utest : build format $(RSLST)

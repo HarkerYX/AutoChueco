@@ -9,7 +9,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath("."))
 
-project = 'Casiocan 5000'
+project = 'AUTOSARLESS'
 copyright = '2022, diego'
 author = 'diego'
 
