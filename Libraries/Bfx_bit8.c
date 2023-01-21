@@ -251,7 +251,7 @@ boolean Bfx_TstParityEven_u8_u8( uint8 Data )
 {
     uint8 Count = 0;
     uint8 Temp  = Data;
-    
+
     while( Temp != 0u )
     {
         Count += ( Temp & 1u );
