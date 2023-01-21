@@ -250,16 +250,15 @@ boolean Bfx_TstBitLnMask_u8u8_u8( uint8 Data, uint8 Mask )
 boolean Bfx_TstParityEven_u8_u8( uint8 Data )
 {
     uint8 Count = 0;
-
-    for( uint8 i = 0u; i < sizeof( Data ) * 8u; i++ )
+    uint8 Temp  = Data;
+    
+    while( Temp != 0u )
     {
-        if( ( ( 1u << i ) & Data ) != 0u )
-        {
-            Count++;
-        }
+        Count += ( Temp & 1u );
+        Temp >>= 1u;
     }
 
-    return ( ( Count % 2u ) == 0u );
+    return ( Count % 2u ) == 0u;
 }
 
 /**
@@ -445,10 +444,10 @@ void Bfx_CopyBit_u8u8u8u8( uint8 *DestinationData, uint8 DestinationPosition, ui
  */
 void Bfx_PutBits_u8u8u8u8( uint8 *Data, uint8 BitStartPn, uint8 BitLn, uint8 Pattern )
 {
-    uint8 Mask = ( 0xFFu << ( BitLn + BitStartPn ) ) | ~( 0xFFu << BitStartPn );
+    uint8 Mask = ( 1 << BitLn ) - 1;
 
-    *Data &= Mask;
-    *Data |= ( Pattern << BitLn );
+    *Data &= ~( Mask << BitStartPn );
+    *Data |= ( Pattern & Mask ) << BitStartPn;
 }
 
 /**
@@ -532,9 +531,18 @@ void Bfx_PutBit_u8u8u8( uint8 *Data, uint8 BitPn, boolean Status )
  */
 sint8 Bfx_ShiftBitSat_s8s8( sint8 ShiftCnt, sint8 Data )
 {
-    (void)ShiftCnt;
-    (void)Data;
-    return 0;
+    uint8 Shifted;
+
+    if( ShiftCnt < 0 )
+    {
+        Shifted = Data >> ( ShiftCnt * -1 );
+    }
+    else
+    {
+        Shifted = Data << ShiftCnt;
+    }
+
+    return Shifted;
 }
 
 /**
@@ -555,15 +563,13 @@ sint8 Bfx_ShiftBitSat_s8s8( sint8 ShiftCnt, sint8 Data )
  */
 uint8 Bfx_CountLeadingOnes_u8( uint8 Data )
 {
-    uint8 Count = 0u;
+    uint8 Count      = 0;
+    uint8 BitChecker = 0x80;
 
-    for( uint8 i = 7u; i < 8u; i-- )
+    while( ( Data & BitChecker ) != 0 )
     {
-        if( ( Data & ( 1u << i ) ) == 0u )
-        {
-            break;
-        }
         Count++;
+        BitChecker >>= 1;
     }
 
     return Count;
@@ -592,7 +598,7 @@ uint8 Bfx_CountLeadingSigns_s8( sint8 Data )
 
     for( uint8 i = 6u; i < 8u; i-- )
     {
-        if( ( Data & ( 1u << i ) ) == 0u )
+        if( ( ( Data >> i ) & 0x01 ) != ( ( Data >> ( i + 1 ) ) & 0x01 ) )
         {
             break;
         }
@@ -620,15 +626,13 @@ uint8 Bfx_CountLeadingSigns_s8( sint8 Data )
  */
 uint8 Bfx_CountLeadingZeros_u8( uint8 Data )
 {
-    uint8 Count = 0u;
+    uint8 Count      = 0;
+    uint8 BitChecker = 0x80;
 
-    for( uint8 i = 7u; i < 8u; i-- )
+    while( ( Data & BitChecker ) == 0 )
     {
-        if( ( Data & ( 1u << i ) ) != 0u )
-        {
-            break;
-        }
         Count++;
+        BitChecker >>= 1;
     }
 
     return Count;
