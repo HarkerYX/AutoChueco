@@ -19,7 +19,7 @@ boolean Bfx_GetBit_u8u8_u8( uint8 Data, uint8 BitPn );
 void Bfx_SetBits_u8u8u8u8( uint8 *Data, uint8 BitStartPn, uint8 BitLn, uint8 Status );
 uint8 Bfx_GetBits_u8u8u8_u8( uint8 Data, uint8 BitStartPn, uint8 BitLn );
 
-void SetBitMask_u8u8( uint8 *Data, uint8 Mask );
+void Bfx_SetBitMask_u8u8( uint8 *Data, uint8 Mask );
 void Bfx_ClrBitMask_u8u8( uint8 *Data, uint8 Mask );
 
 boolean Bfx_TstBitMask_u8u8_u8( uint8 Data, uint8 Mask );
