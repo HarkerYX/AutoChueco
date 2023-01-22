@@ -105,8 +105,8 @@ void Bfx_SetBits_u8u8u8u8( uint8 *Data, uint8 BitStartPn, uint8 BitLn, uint8 Sta
 {
     uint8 Mask;
 
-    Mask = 0xFF << BitStartPn;
-    Mask &= ~( 0xFF << ( BitStartPn + BitLn ) );
+    Mask = 0xFFu << BitStartPn;
+    Mask &= ~( 0xFFu << ( BitStartPn + BitLn ) );
 
     if( Status == TRUE )
     {
@@ -140,7 +140,7 @@ uint8 Bfx_GetBits_u8u8u8_u8( uint8 Data, uint8 BitStartPn, uint8 BitLn )
     uint8 Bits;
 
     Bits = Data >> BitStartPn;
-    Bits &= ~( 0xFF << ( BitLn ) );
+    Bits &= ~( 0xFFu << ( BitLn ) );
 
     return Bits;
 }
@@ -249,7 +249,7 @@ boolean Bfx_TstBitLnMask_u8u8_u8( uint8 Data, uint8 Mask )
  */
 boolean Bfx_TstParityEven_u8_u8( uint8 Data )
 {
-    uint8 Count = 0;
+    uint8 Count = 0u;
     uint8 Temp  = Data;
 
     while( Temp != 0u )
@@ -444,7 +444,7 @@ void Bfx_CopyBit_u8u8u8u8( uint8 *DestinationData, uint8 DestinationPosition, ui
  */
 void Bfx_PutBits_u8u8u8u8( uint8 *Data, uint8 BitStartPn, uint8 BitLn, uint8 Pattern )
 {
-    uint8 Mask = ( 1 << BitLn ) - 1;
+    uint8 Mask = ( 1u << BitLn ) - 1u;
 
     *Data &= ~( Mask << BitStartPn );
     *Data |= ( Pattern & Mask ) << BitStartPn;
@@ -507,6 +507,44 @@ void Bfx_PutBit_u8u8u8( uint8 *Data, uint8 BitPn, boolean Status )
  * For signed data an arithmetic shift is performed. The vacated bits are filled with zeros
  * and the result is saturated if its sign bit differs from the sign bits that are shifted out.
  *
+ * If the shift count is less than zero, right-shift the value in Data by the absolute value of
+ * the shift count. The vacated bits are filled with the sign-bit (the most significant bit) and
+ * bits shifted out are discarded.
+ *
+ * Note that a shift right by the word width leaves all zeros or all ones in the result, de-
+ * pending on the sign-bit.
+ *
+ * **Example:**
+ *      @code
+ *      a 32 bit signed integer: The range for shift count is -32 to +31, allowing a shift left
+ *      up to 31 bit positions and a shift right up to 32 bit positions (a shift right by 32
+ *      bits leaves all zeros or all ones in the result, depending on the sign bit)
+ *      @endcode
+ *
+ * @param[in] ShiftCnt Shift count (-MaxShiftRight ... -1: right, 1 ... MaxShiftLeft:left)
+ * @param[in] Data Input value
+ *
+ * @retval Shifted and saturated bit pattern.
+ */
+sint8 Bfx_ShiftBitSat_s8s8_s8( sint8 ShiftCnt, sint8 Data )
+{
+    sint8 Shifted;
+
+    if( ShiftCnt < 0 )
+    {
+        Shifted = Data >> ( ShiftCnt * -1 );
+    }
+    else
+    {
+        Shifted = Data << ShiftCnt;
+    }
+
+    return Shifted;
+}
+
+/**
+ * @brief  **8 bit Arithmetic shift with saturation**
+ *
  * For unsigned data a logical shift is performed. In this case the result is saturated, if the
  * leading one bit is shifted out.
  *
@@ -529,7 +567,7 @@ void Bfx_PutBit_u8u8u8( uint8 *Data, uint8 BitPn, boolean Status )
  *
  * @retval Shifted and saturated bit pattern.
  */
-sint8 Bfx_ShiftBitSat_s8s8( sint8 ShiftCnt, sint8 Data )
+uint8 Bfx_ShiftBitSat_u8s8_u8( uint8 ShiftCnt, sint8 Data )
 {
     uint8 Shifted;
 
@@ -563,13 +601,13 @@ sint8 Bfx_ShiftBitSat_s8s8( sint8 ShiftCnt, sint8 Data )
  */
 uint8 Bfx_CountLeadingOnes_u8( uint8 Data )
 {
-    uint8 Count      = 0;
-    uint8 BitChecker = 0x80;
+    uint8 Count      = 0u;
+    uint8 BitChecker = 0x80u;
 
-    while( ( Data & BitChecker ) != 0 )
+    while( ( Data & BitChecker ) != 0u )
     {
         Count++;
-        BitChecker >>= 1;
+        BitChecker >>= 1u;
     }
 
     return Count;
@@ -626,13 +664,13 @@ uint8 Bfx_CountLeadingSigns_s8( sint8 Data )
  */
 uint8 Bfx_CountLeadingZeros_u8( uint8 Data )
 {
-    uint8 Count      = 0;
-    uint8 BitChecker = 0x80;
+    uint8 Count      = 0u;
+    uint8 BitChecker = 0x80u;
 
-    while( ( Data & BitChecker ) == 0 )
+    while( ( Data & BitChecker ) == 0u )
     {
         Count++;
-        BitChecker >>= 1;
+        BitChecker >>= 1u;
     }
 
     return Count;
