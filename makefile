@@ -6,7 +6,7 @@ SRCS = main.c startup.c
 #---Actual fremawork sources
 SRCF = Bfx_bit8.c Bfx_bit32.c
 #---Unit testing files
-SRCT = unity.c Test_Bfx_bit8.c
+SRCT = unity.c Test_Bfx_bit8.c Test_Bfx_bit32.c
 
 #---Linker script
 LINKER = linker.ld
