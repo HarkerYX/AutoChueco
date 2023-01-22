@@ -70,7 +70,7 @@ void Bfx_ClrBit_u32u8( uint32 *Data, uint8 BitPn )
  */
 boolean Bfx_GetBit_u32u8_u8( uint32 Data, uint8 BitPn )
 {
-    return ( ( Data & ( 1u << BitPn ) ) == 0u );
+    return ( ( Data & ( 1u << BitPn ) ) != 0u );
 }
 
 /**
