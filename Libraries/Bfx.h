@@ -13,6 +13,7 @@
 #define BFX_H
 
 #include "Bfx_bit8.h"
+#include "Bfx_bit32.h"
 
 
 #endif /* BFX_H */

@@ -32,3 +32,4 @@ the following tools. **NOTE:** we currently support Arch Linux only.
     :caption: Contents:
 
     Bfx_bit8
+    Bfx_bit32
