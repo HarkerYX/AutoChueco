@@ -39,7 +39,9 @@ void Bfx_PutBits_u8u8u8u8( uint8 *Data, uint8 BitStartPn, uint8 BitLn, uint8 Pat
 void Bfx_PutBitsMask_u8u8u8( uint8 *Data, uint8 Pattern, uint8 Mask );
 void Bfx_PutBit_u8u8u8( uint8 *Data, uint8 BitPn, boolean Status );
 
-sint8 Bfx_ShiftBitSat_s8s8( sint8 ShiftCnt, sint8 Data );
+sint8 Bfx_ShiftBitSat_s8s8_s8( sint8 ShiftCnt, sint8 Data );
+uint8 Bfx_ShiftBitSat_u8s8_u8( uint8 ShiftCnt, sint8 Data );
+
 uint8 Bfx_CountLeadingOnes_u8( uint8 Data );
 uint8 Bfx_CountLeadingSigns_s8( sint8 Data );
 uint8 Bfx_CountLeadingZeros_u8( uint8 Data );

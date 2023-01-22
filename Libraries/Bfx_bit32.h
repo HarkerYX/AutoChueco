@@ -17,7 +17,7 @@ void Bfx_ClrBit_u32u8( uint32 *Data, uint8 BitPn );
 boolean Bfx_GetBit_u32u8_u8( uint32 Data, uint8 BitPn );
 
 void Bfx_SetBits_u32u8u8u8( uint32 *Data, uint8 BitStartPn, uint8 BitLn, uint8 Status );
-uint8 Bfx_GetBits_u32u8u8_u8( uint32 Data, uint8 BitStartPn, uint8 BitLn );
+uint32 Bfx_GetBits_u32u8u8_u32( uint32 Data, uint8 BitStartPn, uint8 BitLn );
 
 void Bfx_SetBitMask_u32u32( uint32 *Data, uint32 Mask );
 void Bfx_ClrBitMask_u32u32( uint32 *Data, uint32 Mask );

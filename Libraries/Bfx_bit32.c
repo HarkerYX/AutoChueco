@@ -29,8 +29,7 @@
  */
 void Bfx_SetBit_u32u8( uint32 *Data, uint8 BitPn )
 {
-    (void)Data;
-    (void)BitPn;
+    *Data |= ( 1u << BitPn );
 }
 
 /**
@@ -50,8 +49,7 @@ void Bfx_SetBit_u32u8( uint32 *Data, uint8 BitPn )
  */
 void Bfx_ClrBit_u32u8( uint32 *Data, uint8 BitPn )
 {
-    (void)Data;
-    (void)BitPn;
+    *Data &= ~( 1u << BitPn );
 }
 
 /**
@@ -72,10 +70,7 @@ void Bfx_ClrBit_u32u8( uint32 *Data, uint8 BitPn )
  */
 boolean Bfx_GetBit_u32u8_u8( uint32 Data, uint8 BitPn )
 {
-    (void)Data;
-    (void)BitPn;
-
-    return TRUE;
+    return ( ( Data & ( 1u << BitPn ) ) == 0u );
 }
 
 /**
@@ -97,10 +92,19 @@ boolean Bfx_GetBit_u32u8_u8( uint32 Data, uint8 BitPn )
  */
 void Bfx_SetBits_u32u8u8u8( uint32 *Data, uint8 BitStartPn, uint8 BitLn, uint8 Status )
 {
-    (void)Data;
-    (void)BitStartPn;
-    (void)BitLn;
-    (void)Status;
+    uint32 Mask;
+
+    Mask = 0xFFFFFFFFu << BitStartPn;
+    Mask &= ~( 0xFFFFFFFFu << ( BitStartPn + BitLn ) );
+
+    if( Status == TRUE )
+    {
+        *Data |= Mask;
+    }
+    else
+    {
+        *Data &= ~Mask;
+    }
 }
 
 /**
@@ -120,13 +124,14 @@ void Bfx_SetBits_u32u8u8u8( uint32 *Data, uint8 BitStartPn, uint8 BitLn, uint8 S
  *
  * @retval uint8 Bit field sequence
  */
-uint8 Bfx_GetBits_u32u8u8_u8( uint32 Data, uint8 BitStartPn, uint8 BitLn )
+uint32 Bfx_GetBits_u32u8u8_u32( uint32 Data, uint8 BitStartPn, uint8 BitLn )
 {
-    (void)Data;
-    (void)BitStartPn;
-    (void)BitLn;
+    uint32 Bits;
 
-    return 0u;
+    Bits = Data >> BitStartPn;
+    Bits &= ~( 0xFFFFFFFFu << ( BitLn ) );
+
+    return Bits;
 }
 
 /**
@@ -147,8 +152,7 @@ uint8 Bfx_GetBits_u32u8u8_u8( uint32 Data, uint8 BitStartPn, uint8 BitLn )
  */
 void Bfx_SetBitMask_u32u32( uint32 *Data, uint32 Mask )
 {
-    (void)Data;
-    (void)Mask;
+    *Data |= Mask;
 }
 
 /**
@@ -169,8 +173,7 @@ void Bfx_SetBitMask_u32u32( uint32 *Data, uint32 Mask )
  */
 void Bfx_ClrBitMask_u32u32( uint32 *Data, uint32 Mask )
 {
-    (void)Data;
-    (void)Mask;
+    *Data &= ~Mask;
 }
 
 /**
@@ -192,10 +195,7 @@ void Bfx_ClrBitMask_u32u32( uint32 *Data, uint32 Mask )
  */
 boolean Bfx_TstBitMask_u32u32_u8( uint32 Data, uint32 Mask )
 {
-    (void)Data;
-    (void)Mask;
-
-    return TRUE;
+    return ( ( Data & Mask ) == Mask );
 }
 
 /**
@@ -217,10 +217,7 @@ boolean Bfx_TstBitMask_u32u32_u8( uint32 Data, uint32 Mask )
  */
 boolean Bfx_TstBitLnMask_u32u32_u8( uint32 Data, uint32 Mask )
 {
-    (void)Data;
-    (void)Mask;
-
-    return TRUE;
+    return ( ( Data & Mask ) != 0u );
 }
 
 /**
@@ -241,9 +238,16 @@ boolean Bfx_TstBitLnMask_u32u32_u8( uint32 Data, uint32 Mask )
  */
 boolean Bfx_TstParityEven_u32_u8( uint32 Data )
 {
-    (void)Data;
+    uint8 Count = 0u;
+    uint32 Temp = Data;
 
-    return TRUE;
+    while( Temp != 0u )
+    {
+        Count += ( Temp & 1u );
+        Temp >>= 1u;
+    }
+
+    return ( Count % 2u ) == 0u;
 }
 
 /**
@@ -262,7 +266,7 @@ boolean Bfx_TstParityEven_u32_u8( uint32 Data )
  */
 void Bfx_ToggleBits_u32( uint32 *Data )
 {
-    (void)Data;
+    *Data ^= 0xFFFFFFFFu;
 }
 
 /**
@@ -282,8 +286,7 @@ void Bfx_ToggleBits_u32( uint32 *Data )
  */
 void Bfx_ToggleBitMask_u32u32( uint32 *Data, uint32 Mask )
 {
-    (void)Data;
-    (void)Mask;
+    *Data ^= Mask;
 }
 
 /**
@@ -305,8 +308,7 @@ void Bfx_ToggleBitMask_u32u32( uint32 *Data, uint32 Mask )
  */
 void Bfx_ShiftBitRt_u32u8( uint32 *Data, uint8 ShiftCnt )
 {
-    (void)Data;
-    (void)ShiftCnt;
+    *Data >>= ShiftCnt;
 }
 
 /**
@@ -328,8 +330,7 @@ void Bfx_ShiftBitRt_u32u8( uint32 *Data, uint8 ShiftCnt )
  */
 void Bfx_ShiftBitLt_u32u8( uint32 *Data, uint8 ShiftCnt )
 {
-    (void)Data;
-    (void)ShiftCnt;
+    *Data <<= ShiftCnt;
 }
 
 /**
@@ -354,8 +355,7 @@ void Bfx_ShiftBitLt_u32u8( uint32 *Data, uint8 ShiftCnt )
  */
 void Bfx_RotBitRt_u32u8( uint32 *Data, uint8 ShiftCnt )
 {
-    (void)Data;
-    (void)ShiftCnt;
+    *Data = ( *Data << ( 32u - ShiftCnt ) ) | ( *Data >> ShiftCnt );
 }
 
 /**
@@ -380,8 +380,7 @@ void Bfx_RotBitRt_u32u8( uint32 *Data, uint8 ShiftCnt )
  */
 void Bfx_RotBitLt_u32u8( uint32 *Data, uint8 ShiftCnt )
 {
-    (void)Data;
-    (void)ShiftCnt;
+    *Data = ( *Data >> ( 32u - ShiftCnt ) ) | ( *Data << ShiftCnt );
 }
 
 /**
@@ -404,10 +403,14 @@ void Bfx_RotBitLt_u32u8( uint32 *Data, uint8 ShiftCnt )
  */
 void Bfx_CopyBit_u32u8u32u8( uint32 *DestinationData, uint8 DestinationPosition, uint32 SourceData, uint8 SourcePosition )
 {
-    (void)DestinationData;
-    (void)DestinationPosition;
-    (void)SourceData;
-    (void)SourcePosition;
+    if( ( SourceData & ( 1u << SourcePosition ) ) == 0u )
+    {
+        *DestinationData &= ~( 1u << DestinationPosition );
+    }
+    else
+    {
+        *DestinationData |= ( 1u << DestinationPosition );
+    }
 }
 
 /**
@@ -430,10 +433,10 @@ void Bfx_CopyBit_u32u8u32u8( uint32 *DestinationData, uint8 DestinationPosition,
  */
 void Bfx_PutBits_u32u8u8u32( uint32 *Data, uint8 BitStartPn, uint8 BitLn, uint32 Pattern )
 {
-    (void)Data;
-    (void)BitStartPn;
-    (void)BitLn;
-    (void)Pattern;
+    uint32 Mask = ( 1u << BitLn ) - 1u;
+
+    *Data &= ~( Mask << BitStartPn );
+    *Data |= ( Pattern & Mask ) << BitStartPn;
 }
 
 /**
@@ -455,9 +458,7 @@ void Bfx_PutBits_u32u8u8u32( uint32 *Data, uint8 BitStartPn, uint8 BitLn, uint32
  */
 void Bfx_PutBitsMask_u32u32u32( uint32 *Data, uint32 Pattern, uint32 Mask )
 {
-    (void)Data;
-    (void)Pattern;
-    (void)Mask;
+    *Data = ( ( Pattern & Mask ) | ( *Data & ~Mask ) );
 }
 
 /**
@@ -479,9 +480,14 @@ void Bfx_PutBitsMask_u32u32u32( uint32 *Data, uint32 Pattern, uint32 Mask )
  */
 void Bfx_PutBit_u32u8u8( uint32 *Data, uint8 BitPn, boolean Status )
 {
-    (void)Data;
-    (void)BitPn;
-    (void)Status;
+    if( Status == TRUE )
+    {
+        *Data |= ( 1u << BitPn );
+    }
+    else
+    {
+        *Data &= ~( 1u << BitPn );
+    }
 }
 
 /**
@@ -511,10 +517,18 @@ void Bfx_PutBit_u32u8u8( uint32 *Data, uint8 BitPn, boolean Status )
  */
 sint32 Bfx_ShiftBitSat_s32s8_s32( sint32 Data, sint8 ShiftCnt )
 {
-    (void)ShiftCnt;
-    (void)Data;
+    sint32 Shifted;
 
-    return 0;
+    if( ShiftCnt < 0 )
+    {
+        Shifted = Data >> ( ShiftCnt * -1 );
+    }
+    else
+    {
+        Shifted = Data << ShiftCnt;
+    }
+
+    return Shifted;
 }
 
 /**
@@ -544,10 +558,18 @@ sint32 Bfx_ShiftBitSat_s32s8_s32( sint32 Data, sint8 ShiftCnt )
  */
 uint32 Bfx_ShiftBitSat_u32s8_u32( uint32 Data, sint8 ShiftCnt )
 {
-    (void)ShiftCnt;
-    (void)Data;
+    uint32 Shifted;
 
-    return 0;
+    if( ShiftCnt < 0 )
+    {
+        Shifted = Data >> ( ShiftCnt * -1 );
+    }
+    else
+    {
+        Shifted = Data << ShiftCnt;
+    }
+
+    return Shifted;
 }
 
 /**
@@ -568,9 +590,16 @@ uint32 Bfx_ShiftBitSat_u32s8_u32( uint32 Data, sint8 ShiftCnt )
  */
 uint8 Bfx_CountLeadingOnes_u32( uint32 Data )
 {
-    (void)Data;
+    uint8 Count       = 0u;
+    uint32 BitChecker = 0x80000000u;
 
-    return 0u;
+    while( ( Data & BitChecker ) != 0u )
+    {
+        Count++;
+        BitChecker >>= 1u;
+    }
+
+    return Count;
 }
 
 /**
@@ -592,9 +621,18 @@ uint8 Bfx_CountLeadingOnes_u32( uint32 Data )
  */
 uint8 Bfx_CountLeadingSigns_s32( sint32 Data )
 {
-    (void)Data;
+    uint8 Count = 0u;
 
-    return 0u;
+    for( uint8 i = 6u; i < 8u; i-- )
+    {
+        if( ( ( Data >> i ) & 0x01 ) != ( ( Data >> ( i + 1 ) ) & 0x01 ) )
+        {
+            break;
+        }
+        Count++;
+    }
+
+    return Count;
 }
 
 /**
@@ -615,7 +653,14 @@ uint8 Bfx_CountLeadingSigns_s32( sint32 Data )
  */
 uint8 Bfx_CountLeadingZeros_u32( uint32 Data )
 {
-    (void)Data;
+    uint8 Count       = 0u;
+    uint32 BitChecker = 0x80000000u;
 
-    return 0u;
+    while( ( Data & BitChecker ) == 0u )
+    {
+        Count++;
+        BitChecker >>= 1u;
+    }
+
+    return Count;
 }
