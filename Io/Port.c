@@ -11,8 +11,13 @@
  * and the structure of the PORT driver and DIO driver within the MCAL software layer.
  */
 #include "Std_Types.h"
+#include "Registers.h"
 #include "Port.h"
+#include "Bfx_bit32.h"
 
+#ifndef PORT_NUMBER_OF_PORT_PINS
+#define PORT_NUMBER_OF_PORT_PINS 0u
+#endif
 
 /**
  * @brief  Initializes the Port Driver module.
@@ -24,7 +29,44 @@
  */
 void Port_Init( const Port_ConfigType *ConfigPtr )
 {
-    (void)ConfigPtr;
+    uint8 Pins;
+    uint32 Port;
+    uint32 Pin;
+    Port_RegisterType *PortsBaseAddr = GPIOA;
+
+    /*Roll over all hte pins to configure*/
+    for( Pins = 0u; Pins < PORT_NUMBER_OF_PORT_PINS; Pins++ )
+    {
+        /* Get the pin to configure */
+        Pin = ConfigPtr[ Pins ].PortPinName;
+        Bfx_ClrBitMask_u32u32( &Pin, 0xffff0000u );
+        /* Get the port where the pin to configure is set */
+        Port = ConfigPtr[ Pins ].PortPinName;
+        Bfx_ShiftBitRt_u32u8( &Port, 16u );
+
+        switch( ConfigPtr[ Pins ].PortPinInitialMode )
+        {
+            case PORT_PIN_MODE_DIO:
+                /* Set direction */
+                Bfx_PutBits_u32u8u8u32( (uint32 *)&PortsBaseAddr[ Port ].MODER, ( Pin << 2u ), 2u, ConfigPtr[ Pins ].PortPinDirection );
+                /* Set Resistor */
+                Bfx_PutBits_u32u8u8u32( (uint32 *)&PortsBaseAddr[ Port ].PUPDR, ( Pin << 2u ), 2u, ConfigPtr[ Pins ].PortPinResistor );
+
+                if( ConfigPtr[ Pins ].PortPinDirection == PORT_PIN_OUT )
+                {
+                    /* Set Speed */
+                    Bfx_PutBits_u32u8u8u32( (uint32 *)&PortsBaseAddr[ Port ].OSPEEDR, ( Pin << 2u ), 2u, ConfigPtr[ Pins ].PortPinSpeed );
+                    /* Set OutputDriver (if output) */
+                    Bfx_PutBit_u32u8u8( (uint32 *)&PortsBaseAddr[ Port ].OTYPER, Pin, ConfigPtr[ Pins ].PortPinLevelValue );
+                    /* Set intial value (if output)*/
+                    Bfx_PutBit_u32u8u8( (uint32 *)&PortsBaseAddr[ Port ].ODR, Pin, ConfigPtr[ Pins ].PortPinLevelValue );
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
 }
 
 
@@ -40,8 +82,16 @@ void Port_Init( const Port_ConfigType *ConfigPtr )
  */
 void Port_SetPinDirection( Port_PinType Pin, Port_PinDirectionType Direction )
 {
-    (void)Pin;
-    (void)Direction;
+    uint32 PortPin                   = Pin;
+    uint32 Port                      = Pin;
+    Port_RegisterType *PortsBaseAddr = GPIOA;
+
+    /* Get the pin to configure */
+    Bfx_ClrBitMask_u32u32( &PortPin, 0xffff0000u );
+    /* Get the port where the pin to configure is set */
+    Bfx_ShiftBitRt_u32u8( &Port, 16u );
+    /*Set the new direction into the appropiate Mcu register*/
+    Bfx_PutBits_u32u8u8u32( (uint32 *)&PortsBaseAddr[ Port ].MODER, ( Pin << 2u ), 2u, Direction );
 }
 
 
