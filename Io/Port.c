@@ -18,7 +18,8 @@
  * @brief  Initializes the Port Driver module.
  *
  * The function initialize ALL ports and port pins with the configuration set pointed to by the parameter
- * **ConfigPtr**, by default port will be configured in Analog mode
+ * **ConfigPtr**, by default each port pin will be configured in Analog mode. The fucntion will only
+ * configure the number of pins defined in PORT_NUMBER_OF_PORT_PINS
  *
  * @param  ConfigPtr Pointer to configuration set.
  */
@@ -32,8 +33,8 @@ void Port_Init( const Port_ConfigType *ConfigPtr )
  * @brief  Sets the port pin direction.
  *
  * Set or change the pin direction previously configured, this fucntion is only applicable when
- * the pin is configured as GPIO, however the function does not validate if the pin has a different
- * function
+ * the pin is configured as GPIO and its configuration element is PortPinDirectionChangeable = TRUE,
+ * however the function does not validate if the pin has a different functionnality
  *
  * @param  Pin Port Pin ID number
  * @param  Direction Port Pin direction
@@ -55,7 +56,6 @@ void Port_SetPinDirection( Port_PinType Pin, Port_PinDirectionType Direction )
 void Port_RefreshPortDirection( void )
 {
 }
-
 
 /**
  * @brief  Sets the port pin mode.

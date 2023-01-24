@@ -17,10 +17,10 @@
 /**
  * @brief   Data type for the symbolic name of a port pin.
  *
- * The value is segmented in two parts, th emost significan bytes indicate the Mcu Port while the
- * les significant bytes indicate the pin assigned (values from 0 - 15).
+ * The value is segmented in two parts, the most significant bytes indicate the Mcu Port while the
+ * less significant bytes indicate the pin assigned (values from 0 - 15).
  */
-typedef uint32 Port_PinType;
+typedef uint8 Port_PinType;
 
 /**
  * @brief  Possible directions of a port pin when confired as Digital pins.
@@ -61,13 +61,16 @@ typedef enum Port_PinModesType_Tag
  * itself since no each pin support all functionalities. The potential values to adopt are listed
  * in #Port_PinModesType enum
  */
-typedef uint32 Port_PinModeType;
+typedef uint8 Port_PinModeType;
 
 /**
  * @brief  Type of the external data structure containing the initialization data for this module.
  *
- * Each pin available in the microcontroller shall be assigned this structur, an array with the
- * initial values must be defined in the Port_Cfg.c file
+ * Each pin available in the microcontroller shall be assigned this structure, an array with the
+ * initial values must be defined in the Port_Cfg.c file.
+ *
+ * @note values must be defined and validated withing the code generator tool since the driver wont
+ *      perform any kind of validation been the user responsible to sent the appropiated values
  */
 typedef struct Port_ConfigType_Tag
 {
@@ -77,7 +80,7 @@ typedef struct Port_ConfigType_Tag
     uint8 PortPinLevelValue;                /**< Initial pin digital level value if applicable*/
     uint8 PortPinResistor;                  /**< Internal resistor configuration, pullup, pulldown or none */
     uint8 PortPinSpeed;                     /**< Pin frequency configuration */
-    uint8 PortPinOuputDirve;                /**< Pin as push-pull or open collector */
+    uint8 PortPinOuputDrive;                /**< Pin as push-pull or open collector */
 } Port_ConfigType;
 
 void Port_Init( const Port_ConfigType *ConfigPtr );
