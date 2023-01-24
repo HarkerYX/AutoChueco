@@ -14,6 +14,8 @@
  */
 #include "Std_Types.h"
 #include "Dio.h"
+#include "Registers.h"
+#include "Bfx.h"
 
 
 /**
@@ -29,8 +31,17 @@
  */
 Dio_LevelType Dio_ReadChannel( Dio_ChannelType ChannelId )
 {
-    (void)ChannelId;
-    return 0u;
+    Dio_PortType Port = ChannelId;
+    uint32 Pin        = ChannelId;
+    Dio_LevelType Result;
+    Port_BaseAddr *PortsBaseAddrs = GPIOA;
+
+    Bfx_ClrBitMask_u32u32( &Port, 0x000000ffu );
+    Bfx_ShiftBitRt_u32u8( &Pin, 8u );
+
+    Result = Bfx_GetBit_u32u8_u8( (uint32*)&PortsBaseAddrs[ Port ].IDR, Pin );
+
+    return Result;
 }
 
 
@@ -46,8 +57,11 @@ Dio_LevelType Dio_ReadChannel( Dio_ChannelType ChannelId )
  */
 void Dio_WriteChannel( Dio_ChannelType ChannelId, Dio_LevelType Level )
 {
-    (void)ChannelId;
-    (void)Level;
+    Dio_PortType Port = ChannelId;
+    uint32 Pin        = ChannelId;
+    Port_BaseAddr *PortsBaseAddrs = GPIOA;
+
+    Bfx_PutBit_u32u8u8( (uint32*)&PortsBaseAddrs[ Port ].ODR, Pin, Level );
 }
 
 
@@ -62,8 +76,9 @@ void Dio_WriteChannel( Dio_ChannelType ChannelId, Dio_LevelType Level )
  */
 Dio_PortLevelType Dio_ReadPort( Dio_PortType PortId )
 {
-    (void)PortId;
-    return 0u;
+    Port_BaseAddr *PortsBaseAddrs = GPIOA;
+
+    return PortsBaseAddrs[ PortId ].IDR;
 }
 
 
@@ -79,8 +94,9 @@ Dio_PortLevelType Dio_ReadPort( Dio_PortType PortId )
  */
 void Dio_WritePort( Dio_PortType PortId, Dio_PortLevelType Level )
 {
-    (void)PortId;
-    (void)Level;
+    Port_BaseAddr *PortsBaseAddrs = GPIOA;
+
+    PortsBaseAddrs[ PortId ].ODR = Level;
 }
 
 
@@ -96,8 +112,14 @@ void Dio_WritePort( Dio_PortType PortId, Dio_PortLevelType Level )
  */
 Dio_PortLevelType Dio_ReadChannelGroup( const Dio_ChannelGroupType *ChannelGroupIdPtr )
 {
-    (void)ChannelGroupIdPtr;
-    return 0u;
+    Port_BaseAddr *PortsBaseAddrs        = GPIOA;
+    Dio_PortLevelType GroupValue = ( (GPIO_TypeDef *)( PortsBaseAddrs + ( ChannelGroupIdPtr->port * 1024 ) ) )->IDR;
+
+    
+    GroupValue = GroupValue & ChannelGroupIdPtr->mask;
+    GroupValue = GroupValue >> ChannelGroupIdPtr->offset;
+
+    return GroupValue;
 }
 
 
@@ -132,8 +154,15 @@ void Dio_WriteChannelGroup( const Dio_ChannelGroupType *ChannelGroupIdPtr, Dio_P
  */
 Dio_LevelType Dio_FlipChannel( Dio_ChannelType ChannelId )
 {
-    (void)ChannelId;
-    return 0u;
+    Dio_PortType Port = ChannelId;
+    uint32 Pin        = ChannelId;
+    Dio_LevelType Level;
+    Port_BaseAddr *PortsBaseAddrs = GPIOA;
+
+    Bfx_ToggleBitMask_u32u32( (uint32*)&PortsBaseAddrs[ Port ].ODR, (1u << Pin) );
+    Level = Bfx_GetBit_u32u8_u8( (uint32*)&PortsBaseAddrs[ Port ].IDR, Pin );
+
+    return Level;
 }
 
 
@@ -151,7 +180,7 @@ Dio_LevelType Dio_FlipChannel( Dio_ChannelType ChannelId )
  */
 void Dio_MaskedWritePort( Dio_PortType PortId, Dio_PortLevelType Level, Dio_PortLevelType Mask )
 {
-    (void)PortId;
-    (void)Mask;
-    (void)Level;
+    Port_BaseAddr *PortsBaseAddrs = GPIOA;
+
+    Bfx_PutBitsMask_u32u32u32( &PortsBaseAddrs[ PortId ].ODR, Level, Mask );
 }
