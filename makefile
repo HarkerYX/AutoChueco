@@ -82,7 +82,7 @@ Build/$(TARGET).elf : $(OBJSA)
 	$(TOOLCHAIN) $(CPU) $(LFLAGS) -o $@ $^
 
 Build/obj/%.o : %.c
-	$(TOOLCHAIN) $(CPU) $(CFLAGS) $(INCLS) -c $< -o $@
+	$(TOOLCHAIN) $(CPU) $(CFLAGS) $(INCLS) -IAutosar/Mcal/Registers -c $< -o $@
 
 .PHONY : build clean lint docs format utest
 #---remove binary files
