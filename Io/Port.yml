@@ -1,0 +1,32 @@
+# General configuation for Port Driver 
+PortGeneral:
+
+  PortDevErrorDetec: true
+  PortSetPinDirectionApi: true
+  PortSetPinModeApi: true
+  PortVersionInfoApi: true
+
+PortConfigSet:
+  
+  PortNumberOfPortPins:
+    
+    - PortPin: A0
+      PortPinDirection: out
+      PortPinDirectionChangeable: true
+      PortPinInitialMode: dio
+      PortPinLevelValue: low
+      PortPinModeChangeable: true
+      PortPinResistor: none
+      PortPinSpeed: low
+      PortPinOuputDirve: pushpull
+      
+    - PortPin: A2
+      PortPinDirection: out
+      PortPinDirectionChangeable: true
+      PortPinInitialMode: dio
+      PortPinLevelValue: low
+      PortPinMode: dio
+      PortPinModeChangeable: true
+      PortPinResistor: none
+      PortPinSpeed: low
+      PortPinOuputDirve: pushpull
