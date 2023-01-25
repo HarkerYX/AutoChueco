@@ -94,34 +94,15 @@ build :
 	@mkdir -p Build/unity/obj
 
 format :
-	clang-format -style=file -i --Werror $(FILES)
+	@clang-format -style=file -i --Werror $(FILES)
 
 lint :
 	mkdir -p Build/checks
 	cppcheck --addon=misra.json --suppressions-list=.msupress $(LNFLAGS) .  -iUtest
 
-#unit testing setup, this is a temporary solution since we planned to use the full ceedling framework
-utest : build format $(RSLST)
-	@echo -e "\nPASS:"
-	@-grep -s --no-filename :PASS Build/unity/results/*.txt
-	@echo -e "\nFAILURES:"
-	@-grep -r --no-filename :FAIL Build/unity/results/*.txt
-	@echo -e "\nIGNORE:"
-	@-grep -s --no-filename :IGNORE Build/unity/results/*.txt
-
-Build/unity/results/Test_%.txt : Build/unity/Test_%.out
-	-./$< > $@ 2>&1
-
-Build/unity/Test_%.out: Build/unity/obj/%.o Build/unity/obj/Test_%.o Build/unity/obj/unity.o
-	@clang -o $@ $^
-
-Build/unity/obj/%.o: %.c
-	@clang $(CFLAGS) $(INCLS) -DTEST -c $< -o $@
-
-.PRECIOUS: Build/unity/Test_%.out
-.PRECIOUS: Build/unity/obj/%.o
-.PRECIOUS: Build/unity/results/%.txt
-#-------------------------------------------------------
+utest : build format 
+	ceedling clobber
+	ceedling test:all
 
 docs :
 	mkdir -p Build/doxygen 

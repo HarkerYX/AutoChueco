@@ -9,6 +9,14 @@
 #include "Std_Types.h"
 #include "Bfx_bit32.h"
 
+void setUp( void )
+{
+}
+
+void tearDown( void )
+{
+}
+
 /**
  * @brief   **Test set bit 2**
  *
@@ -553,60 +561,4 @@ void test__Bfx_CountLeadingZeros_u32__3zeroes( void )
     uint32 Zeroes;
     Zeroes = Bfx_CountLeadingZeros_u32( 0x16 );
     TEST_ASSERT_EQUAL_HEX32_MESSAGE( 27, Zeroes, "Value is not 3 as supposed to be" );
-}
-
-int main( void )
-{
-    UNITY_BEGIN( );
-    RUN_TEST( test__Bfx_SetBit_u32u8__bit2 );
-    RUN_TEST( test__Bfx_SetBit_u32u8__bit7 );
-    RUN_TEST( test__Bfx_ClrBit_u32u8__bit2 );
-    RUN_TEST( test__Bfx_ClrBit_u32u8__bit7 );
-    RUN_TEST( test__Bfx_GetBit_u32u8_u8__true );
-    RUN_TEST( test__Bfx_GetBit_u32u8_u8__false );
-    RUN_TEST( test__Bfx_SetBits_u32u8u8u8__mask1 );
-    RUN_TEST( test__Bfx_SetBits_u32u8u8u8__mask0 );
-    RUN_TEST( test__Bfx_GetBits_u32u8u8_u32__3bits );
-    RUN_TEST( test__Bfx_GetBits_u32u8u8_u32__4bits );
-    RUN_TEST( test__Bfx_SetBitMask_u32u32__4bits );
-    RUN_TEST( test__Bfx_ClrBitMask_u32u32__4bits );
-    RUN_TEST( test__Bfx_TstBitMask_u32u32_u8__true );
-    RUN_TEST( test__Bfx_TstBitMask_u32u32_u8__false );
-    RUN_TEST( test__Bfx_TstBitLnMask_u32u32_u8__true );
-    RUN_TEST( test__Bfx_TstBitLnMask_u32u32_u8__false );
-    RUN_TEST( test__Bfx_TstParityEven_u32_u8__true );
-    RUN_TEST( test__Bfx_TstParityEven_u32_u8__false );
-    RUN_TEST( test__Bfx_ToggleBits_u32 );
-    RUN_TEST( test__Bfx_ToggleBitMask_u32u32 );
-    RUN_TEST( test__Bfx_ShiftBitRt_u32u8__4bits );
-    RUN_TEST( test__Bfx_ShiftBitRt_u32u8__8bits );
-    RUN_TEST( test__Bfx_ShiftBitLt_u32u8__4bits );
-    RUN_TEST( test__Bfx_ShiftBitLt_u32u8__8bits );
-    RUN_TEST( test__Bfx_RotBitRt_u32u8__4bits );
-    RUN_TEST( test__Bfx_RotBitRt_u32u8_7bits );
-    RUN_TEST( test__Bfx_RotBitLt_u32u8__4bits );
-    RUN_TEST( test__Bfx_RotBitLt_u32u8__7bits );
-    RUN_TEST( test__Bfx_CopyBit_u32u8u32u8__bit6 );
-    RUN_TEST( test__Bfx_PutBits_u32u8u8u32__4bits );
-    RUN_TEST( test__Bfx_PutBits_u32u8u8u32__3bits );
-    RUN_TEST( test__Bfx_PutBitsMask_u32u32u32__3bits );
-    RUN_TEST( test__Bfx_PutBit_u32u8u8__bit4true );
-    RUN_TEST( test__Bfx_PutBit_u32u8u8__bit2false );
-    RUN_TEST( test__Bfx_ShiftBitSat_s32s8_s32__3leftp );
-    RUN_TEST( test__Bfx_ShiftBitSat_s32s8_s32__3leftn );
-    RUN_TEST( test__Bfx_ShiftBitSat_s32s8_s32__3righp );
-    RUN_TEST( test__Bfx_ShiftBitSat_s32s8_s32__3righn );
-    RUN_TEST( test__Bfx_CountLeadingOnes_u32__3ones );
-    RUN_TEST( test__Bfx_CountLeadingSigns_s32__2ones );
-    RUN_TEST( test__Bfx_CountLeadingSigns_s32__4zeroes );
-    RUN_TEST( test__Bfx_CountLeadingZeros_u32__3zeroes );
-    return UNITY_END( );
-}
-
-void setUp( void )
-{
-}
-
-void tearDown( void )
-{
 }
