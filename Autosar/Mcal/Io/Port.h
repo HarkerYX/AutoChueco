@@ -22,7 +22,7 @@
  * MCU port and the least significant bits indicating the assigned pin number (values ranging from
  * 0 to 15).
  */
-typedef uint8 Port_PinType;
+typedef uint32 Port_PinType;
 
 /**
  * @brief  Possible directions of a port pin when confired as Digital pins.
@@ -44,7 +44,7 @@ typedef enum Port_PinDirectionType_Tag
  * pin mode (input/output, output, alternate, or analog) and the least significant bits indicating
  * the alternate function (values ranging from 0 to 7).
  */
-typedef uint8 Port_PinModeType;
+typedef uint32 Port_PinModeType;
 
 /**
  * @brief Definition of the external data structure containing the initialization data for the Port.
