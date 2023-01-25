@@ -13,12 +13,15 @@ LINKER = linker.ld
 
 #directorios con archivos a compilar (.c y .s)
 SRC_PATHS  = .
-SRC_PATHS += Libraries
+SRC_PATHS += Autosar/Libraries
+SRC_PATHS += Autosar/Mcal
 SRC_PATHS += Utest
 SRC_PATHS += Utest/unity
 #direcotrios con archivos .h
 INC_PATHS  = .
-INC_PATHS += Libraries
+INC_PATHS += Autosar
+INC_PATHS += Autosar/Libraries
+INC_PATHS += Autosar/Mcal
 INC_PATHS += Utest
 INC_PATHS += Utest/unity
 
