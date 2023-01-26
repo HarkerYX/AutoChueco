@@ -11,7 +11,6 @@
  * and the structure of the PORT driver and DIO driver within the MCAL software layer.
  */
 #include "Std_Types.h"
-<<<<<<< HEAD
 #include "Registers.h"
 #include "Port.h"
 #include "Bfx.h"
@@ -30,10 +29,6 @@ static Port_ConfigEnv PortConfigEnv =
     .PortRegisters = PORTA 
 };
 /* clang-format on */
-=======
-#include "Port.h"
-
->>>>>>> 0c5ab20 (folder reestructure)
 
 /**
  * @brief   Initializes the Port Driver module with the configuration set pointed to by ConfigPtr.
@@ -51,7 +46,6 @@ static Port_ConfigEnv PortConfigEnv =
  */
 void Port_Init( const Port_ConfigType *ConfigPtr )
 {
-<<<<<<< HEAD
     uint8 Port;
     uint8 Ports;
 
@@ -78,9 +72,6 @@ void Port_Init( const Port_ConfigType *ConfigPtr )
         /*Set altern mode for the less significant pins*/
         PortConfigEnv.PortRegisters[ Port ].AFR[ 0u ] = ConfigPtr->PortsConfig[ Ports ].PortPinAltL;
     }
-=======
-    (void)ConfigPtr;
->>>>>>> 0c5ab20 (folder reestructure)
 }
 
 
@@ -104,7 +95,6 @@ void Port_Init( const Port_ConfigType *ConfigPtr )
  */
 void Port_SetPinDirection( Port_PinType Pin, Port_PinDirectionType Direction )
 {
-<<<<<<< HEAD
     uint8 PortPin = Pin;
     uint8 Port    = Pin;
 
@@ -114,10 +104,6 @@ void Port_SetPinDirection( Port_PinType Pin, Port_PinDirectionType Direction )
     Bfx_ShiftBitRt_u8u8( &Port, 4u );
     /*Set the new direction into the appropiate Mcu register*/
     Bfx_PutBits_u32u8u8u32( (uint32 *)&PortConfigEnv.PortRegisters[ Port ].MODER, ( PortPin << 2u ), 2u, Direction );
-=======
-    (void)Pin;
-    (void)Direction;
->>>>>>> 0c5ab20 (folder reestructure)
 }
 
 
@@ -134,7 +120,6 @@ void Port_SetPinDirection( Port_PinType Pin, Port_PinDirectionType Direction )
  */
 void Port_RefreshPortDirection( void )
 {
-<<<<<<< HEAD
     uint8 Pin;
     uint8 Port;
 
@@ -156,8 +141,6 @@ void Port_RefreshPortDirection( void )
             }
         }
     }
-=======
->>>>>>> 0c5ab20 (folder reestructure)
 }
 
 
@@ -178,7 +161,6 @@ void Port_RefreshPortDirection( void )
  */
 void Port_SetPinMode( Port_PinType Pin, Port_PinModeType Mode )
 {
-<<<<<<< HEAD
     uint8 PortPin        = Pin;
     uint8 Port           = Pin;
     uint8 PinMode        = Mode;
@@ -206,8 +188,4 @@ void Port_SetPinMode( Port_PinType Pin, Port_PinModeType Mode )
         /*Set the new altern mode for the most significant pins*/
         Bfx_PutBits_u32u8u8u32( (uint32 *)&PortConfigEnv.PortRegisters[ Port ].AFR[ 1u ], ( PortPin << 4u ), 4u, AlternFunction );
     }
-=======
-    (void)Pin;
-    (void)Mode;
->>>>>>> 0c5ab20 (folder reestructure)
 }
