@@ -15,6 +15,7 @@ LINKER = linker.ld
 SRC_PATHS  = .
 SRC_PATHS += Autosar/Libraries
 SRC_PATHS += Autosar/Mcal
+SRC_PATHS += Autosar/Cfg
 SRC_PATHS += Utest
 SRC_PATHS += Utest/unity
 #direcotrios con archivos .h
@@ -22,6 +23,7 @@ INC_PATHS  = .
 INC_PATHS += Autosar
 INC_PATHS += Autosar/Libraries
 INC_PATHS += Autosar/Mcal
+INC_PATHS += Autosar/Cfg
 INC_PATHS += Utest
 INC_PATHS += Utest/unity
 
