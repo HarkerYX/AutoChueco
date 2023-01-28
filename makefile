@@ -4,7 +4,7 @@ TARGET = mcal
 #---Files to compile
 SRCS = main.c startup.c
 #---Actual fremawork sources
-SRCF = Bfx_bit8.c Bfx_bit32.c Port.c
+SRCF = Bfx_bit8.c Bfx_bit32.c Port.c Port_PBcfg.c
 #---Unit testing files
 SRCT = unity.c Test_Bfx_bit8.c Test_Bfx_bit32.c
 
@@ -82,7 +82,7 @@ Build/$(TARGET).elf : $(OBJSA)
 	$(TOOLCHAIN) $(CPU) $(LFLAGS) -o $@ $^
 
 Build/obj/%.o : %.c
-	$(TOOLCHAIN) $(CPU) $(CFLAGS) $(INCLS) -c $< -o $@
+	$(TOOLCHAIN) $(CPU) $(CFLAGS) $(INCLS) -IAutosar/Mcal/Registers -c $< -o $@
 
 .PHONY : build clean lint docs format utest
 #---remove binary files
@@ -100,7 +100,7 @@ format :
 
 lint :
 	mkdir -p Build/checks
-	cppcheck --addon=misra.json --suppressions-list=.msupress $(LNFLAGS) .  -iUtest
+	cppcheck --addon=misra.json --suppressions-list=.msupress $(LNFLAGS) Autosar
 
 utest : build format 
 	ceedling clobber

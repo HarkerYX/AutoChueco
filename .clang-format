@@ -31,7 +31,7 @@ AlignConsecutiveAssignments: 'true'
 # #define EVEN_LONGER_NAME (2)
 # #define foo(x)           (x * x)
 # #define bar(y, z)        (y + z)
-AlignConsecutiveMacros: 'true'
+AlignConsecutiveMacros: 'AcrossEmptyLinesAndComments'
 
 # Dependent on the value, while (true) { continue; } can be put on a single line.
 # Possible values: Never, Empty, Always
@@ -68,6 +68,10 @@ AllowShortIfStatementsOnASingleLine: Never
 
 # If true, while (true) continue; can be put on a single line.
 AllowShortLoopsOnASingleLine: 'false'
+
+#The brace breaking style to use.
+#Possible values: Attach, Linux, Mozilla, Stroustrup, Allman, Whitesmiths, GNU, Custom
+BreakBeforeBraces: 'Allman'
 
 # The column limit.
 # A column limit of 0 means that there is no column limit. In this case, clang-format will respect 
