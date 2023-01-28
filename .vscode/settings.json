@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "bfx_bit32.h": "c"
+        "bfx_bit32.h": "c",
+        "std_types.h": "c",
+        "mock_bfx_bit8.h": "c"
     }
 }
