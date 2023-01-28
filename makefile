@@ -4,7 +4,7 @@ TARGET = mcal
 #---Files to compile
 SRCS = main.c startup.c
 #---Actual fremawork sources
-SRCF = Bfx_bit8.c Bfx_bit32.c
+SRCF = Bfx_bit8.c Bfx_bit32.c Port.c
 #---Unit testing files
 SRCT = unity.c Test_Bfx_bit8.c Test_Bfx_bit32.c
 
@@ -15,17 +15,17 @@ LINKER = linker.ld
 SRC_PATHS  = .
 SRC_PATHS += Autosar/Libraries
 SRC_PATHS += Autosar/Mcal
-SRC_PATHS += Autosar/Cfg
+SRC_PATHS += Autosar/Mcal/Io
+SRC_PATHS += Cfg
 SRC_PATHS += Utest
-SRC_PATHS += Utest/unity
 #direcotrios con archivos .h
 INC_PATHS  = .
 INC_PATHS += Autosar
 INC_PATHS += Autosar/Libraries
 INC_PATHS += Autosar/Mcal
-INC_PATHS += Autosar/Cfg
+INC_PATHS += Autosar/Mcal/Io
+INC_PATHS += Cfg
 INC_PATHS += Utest
-INC_PATHS += Utest/unity
 
 #---Set toolchain
 TOOLCHAIN = clang

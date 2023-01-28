@@ -114,7 +114,7 @@ void Bfx_SetBits_u32u8u8u8( uint32 *Data, uint8 BitStartPn, uint8 BitLn, uint8 S
  *
  * **Example:**
  *      @code
- *      Data = Bfx_GetBits_u32u8u8_u8(01100111b, 4, 3)
+ *      Data = Bfx_GetBits_u32u8u8_u32(01100111b, 4, 3)
  *      data will be equal to 00000110b
  *      @endcode
  *

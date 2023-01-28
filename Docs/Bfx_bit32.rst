@@ -42,7 +42,7 @@ Write Multiple Bits
 Get Multiple Bits
 -----------------
 
-.. doxygenfunction:: Bfx_GetBits_u32u8u8_u8
+.. doxygenfunction:: Bfx_GetBits_u32u8u8_u32
     :project: AUTOSARLESS
 
 .
