@@ -162,7 +162,7 @@ Put single bit
 Arithmetic shift with saturation
 --------------------------------
 
-.. doxygenfunction:: Bfx_ShiftBitSat_s8s8
+.. doxygenfunction:: Bfx_ShiftBitSat_s8s8_s8
     :project: AUTOSARLESS
 
 .

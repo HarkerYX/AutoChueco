@@ -15,13 +15,18 @@
 
 
 /**
- * @brief  Initializes the Port Driver module.
+ * @brief   Initializes the Port Driver module with the configuration set pointed to by ConfigPtr.
  *
- * The function initialize ALL ports and port pins with the configuration set pointed to by the parameter
- * **ConfigPtr**, by default each port pin will be configured in Analog mode. The fucntion will only
- * configure the number of pins defined in PORT_NUMBER_OF_PORT_PINS
+ * The function initializes all ports and port pins using the configuration set specified by the input 
+ * parameter ConfigPtr. By default, each port pin will be configured in analog mode. The function will 
+ * configure all the microcontroller pins defined on each port according to what was set by the 
+ * configuration tool.
  *
- * @param  ConfigPtr Pointer to configuration set.
+ * @param[in]  ConfigPtr  Pointer to the configuration set to be used for initialization.
+ *
+ * @code
+ *      Port_Init( &PortsConfiguration );
+ * @endcode
  */
 void Port_Init( const Port_ConfigType *ConfigPtr )
 {
@@ -32,12 +37,20 @@ void Port_Init( const Port_ConfigType *ConfigPtr )
 /**
  * @brief  Sets the port pin direction.
  *
- * Set or change the pin direction previously configured, this fucntion is only applicable when
- * the pin is configured as GPIO and its configuration element is PortPinDirectionChangeable = TRUE,
- * however the function does not validate if the pin has a different functionnality
+ * This function sets or changes the direction of a previously configured port pin. It is only applicable 
+ * for pins configured as GPIO and if the DirectionChangeable flag for the pin is set to TRUE. However, 
+ * the function does not perform any validation to check if the pin has the correct configuration.
  *
- * @param  Pin Port Pin ID number
- * @param  Direction Port Pin direction
+ * @param  Pin Pin Port pin identifier.
+ * @param  Direction Direction Desired direction for the port pin.
+ * 
+ * @note The function does not perform any validation to ensure that the provided Pin parameter is 
+ *      valid or that the direction change is allowed. The responsibility to ensure the validity of the 
+ *      input lies with the caller.
+ * 
+ * @code
+ *      Port_SetPinDirection( PORT_PIN_CHIP_SELECT, PORT_PIN_OUT );
+ * @endcode
  */
 void Port_SetPinDirection( Port_PinType Pin, Port_PinDirectionType Direction )
 {
@@ -47,11 +60,15 @@ void Port_SetPinDirection( Port_PinType Pin, Port_PinDirectionType Direction )
 
 
 /**
- * @brief  Refreshes port direction.
- *
- * he function Port_RefreshPortDirection shall refresh the direction of all configured ports to the
- * configured direction only if the pins are not are configured as ’pin direction changeable during
- * runtime
+ * @brief  Refreshes the direction of all the configured ports.
+ * 
+ * This function updates the direction of all the ports to their configured direction, but only for
+ * the pins that are not configured as changeable during runtime. The function ensures that the direction
+ * of the port is updated to its intended state, especially after a system reset or power-up scenario.
+ * 
+ * @code
+ *      Port_RefreshPortDirection( );
+ * @endcode
  */
 void Port_RefreshPortDirection( void )
 {
@@ -60,12 +77,17 @@ void Port_RefreshPortDirection( void )
 /**
  * @brief  Sets the port pin mode.
  *
- * The function Port_SetPinMode shall set the port pin mode of the referenced pin during runtime.
+ * The function sets the mode of the specified pin during runtime, but only if the pin is configured
+ * to allow mode changes at runtime. The new mode must be defined in the auto-generated file Port_Cfg.h,
+ * otherwise unexpected behavior may occur.
  *
  * @param  Pin Port Pin ID number
  * @param  Mode New Port Pin mode to be set on port pin
  *
- * @retval None
+ * @code
+ *      Port_SetPinMode( PORT_PIN_CHIP_SELECT, PORT_PIN_CHIP_SELECT_MODE_GPIO_OUT );
+ * @endcode
+ *      
  */
 void Port_SetPinMode( Port_PinType Pin, Port_PinModeType Mode )
 {

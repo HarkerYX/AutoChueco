@@ -13,12 +13,14 @@
 #ifndef PORT_H
 #define PORT_H
 
+#include "Port_Defines.h"
 
 /**
  * @brief   Data type for the symbolic name of a port pin.
  *
- * The value is segmented in two parts, the most significant bytes indicate the Mcu Port while the
- * less significant bytes indicate the pin assigned (values from 0 - 15).
+ * The value of this type is comprised of two parts, with the most significant bits indicating the 
+ * MCU port and the least significant bits indicating the assigned pin number (values ranging from 
+ * 0 to 15).
  */
 typedef uint8 Port_PinType;
 
@@ -34,54 +36,87 @@ typedef enum Port_PinDirectionType_Tag
 } Port_PinDirectionType;
 
 /**
- * @brief  Possible pin configuration modes.
+ * @brief   Data type for holding different port pin modes.
  *
- * Potential pin modes to configure each pin, by default each pin is configured in ADC mode
- * for power saving
- */
-typedef enum Port_PinModesType_Tag
-{
-    PORT_PIN_MODE_ADC = 0u,
-    PORT_PIN_MODE_CAN,
-    PORT_PIN_MODE_DIO,
-    PORT_PIN_MODE_DIO_GPT,
-    PORT_PIN_MODE_DIO_WDG,
-    PORT_PIN_MODE_FLEXRAY,
-    PORT_PIN_MODE_ICU,
-    PORT_PIN_MODE_LIN,
-    PORT_PIN_MODE_MEM,
-    PORT_PIN_MODE_PWM,
-    PORT_PIN_MODE_SPI
-} Port_PinModesType;
-
-/**
- * @brief  Different port pin modes
- *
- * The type holds the pin functionality adopted or to adopt, it is limited by the microcontroller
- * itself since no each pin support all functionalities. The potential values to adopt are listed
- * in #Port_PinModesType enum
+ * This type holds the functionality adopted or to be adopted by the pin. The values are limited 
+ * by the capabilities of the microcontroller and the specific set of functions that each pin 
+ * supports. The value is comprised of two parts, with the most significant bits indicating the 
+ * pin mode (input/output, output, alternate, or analog) and the least significant bits indicating 
+ * the alternate function (values ranging from 0 to 7).
  */
 typedef uint8 Port_PinModeType;
+
+/**
+ * @brief Definition of the external data structure containing the initialization data for the Port.
+ * 
+ * The Port_PortsConfigType data structure holds the initialization information for each port available 
+ * on the microcontroller. An array of these structures must be defined in the Port_Cfg.c file, with 
+ * each entry representing a specific port.
+ * 
+ * @note It is the responsibility of the user to ensure that the values defined in this structure are 
+ * valid and appropriate, as the Port Driver does not perform any validation. The values must be generated 
+ * and validated within the code generation tool.
+ */
+typedef struct Port_PortsConfigType_Tag
+{
+    uint8 PortNumber;           /**< A microcontroller-specific port name assigned to each available 
+                                    port, ranging from PORT_PA to PORT_PH.*/
+
+    uint16 AvailablePins;       /**< A bitwise representation of the implemented pins in the corresponding 
+                                    microcontroller port, where each set bit indicates that the corresponding 
+                                    pin is available.*/
+
+    uint32 PortPinInitialMode;  /**< The functional mode to be configured for each pin in the port, 
+                                    represented by two bits for each pin. The potential values are 
+                                    PORT_MODE_INPUT (00), PORT_MODE_OUTPUT (01), PORT_MODE_ALTERN (10), 
+                                    and PORT_MODE_ANALOG (11).*/
+
+    uint32 PortPinOuputDrive;   /**< The drive mode for the port pins, represented by a bit for each pin. 
+                                    The potential values are PORT_PUSH_PULL (0) and PORT_OPEN_COLECTOR (1).*/
+
+    uint32 PortPinSpeed;        /**< The frequency configuration for each pin in the port, represented 
+                                    by two bits for each pin. The potential values are PORT_SPEED_FREQ_LOW (00), 
+                                    PORT_SPEED_FREQ_MEDIUM (01), PORT_SPEED_FREQ_HIGH (10), and 
+                                    PORT_SPEED_FREQ_VERY_HIGH (11) */
+
+    uint32 PortPinLevelValue;   /**< The initial digital level value for each pin in the port, represented 
+                                    by a bit for each pin. These values are only applicable when the port 
+                                    is configured as digital output.*/
+
+    uint32 PortPinResistor;     /**< The internal resistor configuration for each pin in the port, represented 
+                                    by two bits for each pin. The potential values are PORT_RESISTOR_NOPULL (00), 
+                                    PORT_RESISTOR_PULLUP (01), and PORT_RESISTOR_PULLDOWN (10)*/
+
+    uint32 PortPinAltH;         /**< The altern mode configuration for the most significant port pins, 
+                                    represented by four bits for each pin and up to eight potential altern modes 
+                                    that can be set, all of them microcontroller dependent.*/  
+
+    uint32 PortPinAltL;         /**< The altern mode configuration for the most significant port pins, 
+                                    represented by four bits for each pin and up to eight potential altern modes 
+                                    that can be set, all of them microcontroller dependent.*/
+
+    uint16 DirectionChangeable; /**< A bitwise representation of the port pins that can have their direction 
+                                    changed at runtime, where each set bit indicates that the corresponding 
+                                    pin direction can be changed.*/
+
+    uint16 ModeChangeable;      /**< A bitwise representation of the port pins that can have their mode 
+                                    (and altern mode) changed at runtime, where each set bit indicates that 
+                                    the corresponding pin mode can be changed.*/
+} Port_PortsConfigType;
 
 /**
  * @brief  Type of the external data structure containing the initialization data for this module.
  *
  * Each pin available in the microcontroller shall be assigned this structure, an array with the
- * initial values must be defined in the Port_Cfg.c file.
- *
- * @note values must be defined and validated withing the code generator tool since the driver wont
- *      perform any kind of validation been the user responsible to sent the appropiated values
+ * initial values must be defined in the Port_Cfg.c file
  */
 typedef struct Port_ConfigType_Tag
 {
-    Port_PinType PortPinName;               /**< Pin name assigned with port and pin information embedded*/
-    Port_PinModeType PortPinInitialMode;    /**< The fucntional mode wich will be configured */
-    Port_PinDirectionType PortPinDirection; /**< If config as GPIO set direction as input or output */
-    uint8 PortPinLevelValue;                /**< Initial pin digital level value if applicable*/
-    uint8 PortPinResistor;                  /**< Internal resistor configuration, pullup, pulldown or none */
-    uint8 PortPinSpeed;                     /**< Pin frequency configuration */
-    uint8 PortPinOuputDrive;                /**< Pin as push-pull or open collector */
+    uint8 PortNumbers;                  /**< the number of ports in the microcontroller*/
+    Port_PortsConfigType *PortsConfig;  /**< pointer to port configuration array*/
 } Port_ConfigType;
+
+#include "Port_Cfg.h"
 
 void Port_Init( const Port_ConfigType *ConfigPtr );
 void Port_SetPinDirection( Port_PinType Pin, Port_PinDirectionType Direction );
