@@ -32,10 +32,14 @@
 :paths:
   :test:
     - Utest
+    - Utest/Registers
   :source:
+    - Cfg
     - Autosar
     - Autosar/Libraries
     - Autosar/Mcal
+    - Autosar/Mcal/Io
+    - -:Autosar/Mcal/Registers
   :support:
   :libraries: []
 
