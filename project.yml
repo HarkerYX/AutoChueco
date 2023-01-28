@@ -38,6 +38,7 @@
     - Autosar/Libraries
     - Autosar/Mcal
     - Autosar/Mcal/Io
+    - Cfg
     - -:Autosar/Mcal/Registers
   :support:
   :libraries: []

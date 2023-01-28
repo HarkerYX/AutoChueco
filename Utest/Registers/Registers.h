@@ -24,18 +24,18 @@ typedef struct
 
 
 /*!< IOPORT */
-extern Port_RegisterType GPIOA_BASE;
-extern Port_RegisterType GPIOB_BASE;
-extern Port_RegisterType GPIOC_BASE;
-extern Port_RegisterType GPIOD_BASE;
-extern Port_RegisterType GPIOE_BASE;
-extern Port_RegisterType GPIOF_BASE;
+extern Port_RegisterType PORTA_BASE;
+extern Port_RegisterType PORTB_BASE;
+extern Port_RegisterType PORTC_BASE;
+extern Port_RegisterType PORTD_BASE;
+extern Port_RegisterType PORTE_BASE;
+extern Port_RegisterType PORTF_BASE;
 
-extern Port_RegisterType *GPIOA;
-extern Port_RegisterType *GPIOB;
-extern Port_RegisterType *GPIOC;
-extern Port_RegisterType *GPIOD;
-extern Port_RegisterType *GPIOE;
-extern Port_RegisterType *GPIOF;
+#define PORTA ( (Port_RegisterType *)&PORTA_BASE )
+#define PORTB ( (Port_RegisterType *)&PORTA_BASE )
+#define PORTC ( (Port_RegisterType *)&PORTB_BASE )
+#define PORTD ( (Port_RegisterType *)&PORTC_BASE )
+#define PORTE ( (Port_RegisterType *)&PORTD_BASE )
+#define PORTF ( (Port_RegisterType *)&PORTE_BASE )
 
 #endif /* REGISTERS_H */
