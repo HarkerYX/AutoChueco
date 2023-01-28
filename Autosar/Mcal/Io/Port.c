@@ -13,6 +13,7 @@
 #include "Std_Types.h"
 #include "Registers.h"
 #include "Port.h"
+#include "Port_Cfg.h"
 #include "Bfx.h"
 
 typedef struct Port_ConfigEnv_Tag

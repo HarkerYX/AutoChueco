@@ -4,9 +4,9 @@ TARGET = mcal
 #---Files to compile
 SRCS = main.c startup.c
 #---Actual fremawork sources
-SRCF = Bfx_bit8.c Bfx_bit32.c Port.c Port_Cfg.c
+SRCF = Bfx_bit8.c Bfx_bit32.c Port.c Port_PBcfg.c
 #---Unit testing files
-SRCT = unity.c Test_Bfx_bit8.c Test_Bfx_bit32.c Test_Port.c
+SRCT = unity.c Test_Bfx_bit8.c Test_Bfx_bit32.c
 
 #---Linker script
 LINKER = linker.ld

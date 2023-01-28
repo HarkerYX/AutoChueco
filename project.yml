@@ -32,14 +32,10 @@
 :paths:
   :test:
     - Utest
-    - Utest/Registers
   :source:
     - Autosar
     - Autosar/Libraries
     - Autosar/Mcal
-    - Autosar/Mcal/Io
-    - Cfg
-    - -:Autosar/Mcal/Registers
   :support:
   :libraries: []
 
@@ -55,17 +51,15 @@
     - *common_defines
 
 :cmock:
-  :includes:
-    - Std_Types.h
-  :mock_prefix: Mock_
+#  :inclues:
+#    - "cmsisg0/registers/stm32g0xx.h"
+  :mock_prefix: mock_
   :treat_externs: :include
   :when_no_prototypes: :warn
   :enforce_strict_ordering: TRUE
   :plugins:
     - :ignore
     - :callback
-    - :ignore_arg
-    - :return_thru_ptr
   :treat_as:
     uint8:    HEX8
     uint16:   HEX16
