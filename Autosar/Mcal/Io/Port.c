@@ -16,9 +16,20 @@
 #include "Port_Cfg.h"
 #include "Bfx.h"
 
-#ifndef PORT_NUMBER_OF_PORT_PINS
-#define PORT_NUMBER_OF_PORT_PINS 0u
-#endif
+typedef struct Port_ConfigEnv_Tag
+{
+    const Port_ConfigType *const PortConfigPtr;
+    Port_RegisterType *const PortRegisters;
+} Port_ConfigEnv;
+
+
+/* clang-format off */
+static Port_ConfigEnv PortConfigEnv =
+{
+    .PortConfigPtr = &PortConfig,
+    .PortRegisters = PORTA 
+};
+/* clang-format on */
 
 /**
  * @brief   Initializes the Port Driver module with the configuration set pointed to by ConfigPtr.
@@ -36,43 +47,31 @@
  */
 void Port_Init( const Port_ConfigType *ConfigPtr )
 {
-    uint8 Pins;
     uint8 Port;
-    uint8 Pin;
-    Port_RegisterType *PortsBaseAddr = GPIOA;
+    uint8 Ports;
 
     /*Roll over all hte pins to configure*/
-    for( Pins = 0u; Pins < PORT_NUMBER_OF_PORT_PINS; Pins++ )
+    for( Ports = 0u; Ports < ConfigPtr->PortNumbers; Ports++ )
     {
         /* Get the pin to configure */
-        Pin = ConfigPtr[ Pins ].PortPinName;
-        Bfx_ClrBitMask_u8u8( &Pin, 0xf0u );
-        /* Get the port where the pin to configure is set */
-        Port = ConfigPtr[ Pins ].PortPinName;
-        Bfx_ShiftBitRt_u8u8( &Port, 4u );
+        Port = ConfigPtr->PortsConfig[ Ports ].PortNumber;
 
-        switch( ConfigPtr[ Pins ].PortPinInitialMode )
-        {
-            case PORT_PIN_MODE_DIO:
-                /* Set direction */
-                Bfx_PutBits_u32u8u8u32( (uint32 *)&PortsBaseAddr[ Port ].MODER, ( Pin << 2u ), 2u, ConfigPtr[ Pins ].PortPinDirection );
-                /* Set Resistor */
-                Bfx_PutBits_u32u8u8u32( (uint32 *)&PortsBaseAddr[ Port ].PUPDR, ( Pin << 2u ), 2u, ConfigPtr[ Pins ].PortPinResistor );
-
-                if( ConfigPtr[ Pins ].PortPinDirection == PORT_PIN_OUT )
-                {
-                    /* Set Speed */
-                    Bfx_PutBits_u32u8u8u32( (uint32 *)&PortsBaseAddr[ Port ].OSPEEDR, ( Pin << 2u ), 2u, ConfigPtr[ Pins ].PortPinSpeed );
-                    /* Set OutputDriver (if output) */
-                    Bfx_PutBit_u32u8u8( (uint32 *)&PortsBaseAddr[ Port ].OTYPER, Pin, ConfigPtr[ Pins ].PortPinOuputDrive );
-                    /* Set intial value (if output)*/
-                    Bfx_PutBit_u32u8u8( (uint32 *)&PortsBaseAddr[ Port ].ODR, Pin, ConfigPtr[ Pins ].PortPinLevelValue );
-                }
-                break;
-
-            default:
-                break;
-        }
+        /*Set mode in all corresponding pins*/
+        PortConfigEnv.PortRegisters[ Port ].MODER = ConfigPtr->PortsConfig[ Ports ].PortPinInitialMode;
+        /*Set ouput drive in all corresponding pins*/
+        PortConfigEnv.PortRegisters[ Port ].PUPDR = ConfigPtr->PortsConfig[ Ports ].PortPinOuputDrive;
+        /*Set output speed in all corresponding pins*/
+        PortConfigEnv.PortRegisters[ Port ].OSPEEDR = ConfigPtr->PortsConfig[ Ports ].PortPinSpeed;
+        /*Set pull resistors in all corresponding pins*/
+        PortConfigEnv.PortRegisters[ Port ].PUPDR = ConfigPtr->PortsConfig[ Ports ].PortPinResistor;
+        /*Set output speed in all corresponding pins*/
+        PortConfigEnv.PortRegisters[ Port ].PUPDR = ConfigPtr->PortsConfig[ Ports ].PortPinResistor;
+        /*Set intial output level value*/
+        PortConfigEnv.PortRegisters[ Port ].ODR = ConfigPtr->PortsConfig[ Ports ].PortPinLevelValue;
+        /*Set altern mode for the most significant pins*/
+        PortConfigEnv.PortRegisters[ Port ].AFR[ 1u ] = ConfigPtr->PortsConfig[ Ports ].PortPinAltH;
+        /*Set altern mode for the less significant pins*/
+        PortConfigEnv.PortRegisters[ Port ].AFR[ 0u ] = ConfigPtr->PortsConfig[ Ports ].PortPinAltL;
     }
 }
 
@@ -97,16 +96,15 @@ void Port_Init( const Port_ConfigType *ConfigPtr )
  */
 void Port_SetPinDirection( Port_PinType Pin, Port_PinDirectionType Direction )
 {
-    uint8 PortPin                    = Pin;
-    uint8 Port                       = Pin;
-    Port_RegisterType *PortsBaseAddr = GPIOA;
+    uint8 PortPin = Pin;
+    uint8 Port    = Pin;
 
     /* Get the pin to configure */
     Bfx_ClrBitMask_u8u8( &PortPin, 0xf0u );
     /* Get the port where the pin to configure is set */
     Bfx_ShiftBitRt_u8u8( &Port, 4u );
     /*Set the new direction into the appropiate Mcu register*/
-    Bfx_PutBits_u32u8u8u32( (uint32 *)&PortsBaseAddr[ Port ].MODER, ( Pin << 2u ), 2u, Direction );
+    Bfx_PutBits_u32u8u8u32( (uint32 *)&PortConfigEnv.PortRegisters[ Port ].MODER, ( PortPin << 2u ), 2u, Direction );
 }
 
 
@@ -123,6 +121,27 @@ void Port_SetPinDirection( Port_PinType Pin, Port_PinDirectionType Direction )
  */
 void Port_RefreshPortDirection( void )
 {
+    uint8 Pin;
+    uint8 Port;
+
+    /*Roll over all hte pins to configure*/
+    for( Port = 0u; Port < PortConfigEnv.PortConfigPtr->PortNumbers; Port++ )
+    {
+        /*Roll over all the pins in the port*/
+        for( Pin = 0u; Pin < 16u; Pin++ )
+        {
+            /*inquire if the pin is set to not changeable and configure as GPIO*/
+            if( Bfx_GetBit_u32u8_u8( PortConfigEnv.PortConfigPtr->PortsConfig[ Port ].DirectionChangeable, Pin ) == FALSE )
+            {
+                /*inquire if th pin is configure as regualr GPIO*/
+                if( Bfx_TstBitMask_u32u32_u8( PortConfigEnv.PortConfigPtr->PortsConfig[ Port ].PortPinInitialMode, ( 0x10u << ( Pin << 2 ) ) ) == FALSE )
+                {
+                    /*refresh the port direction as stablished in the initial configuration*/
+                    Bfx_CopyBit_u32u8u32u8( (uint32 *)&PortConfigEnv.PortRegisters[ Port ].MODER, ( Pin << 2u ), PortConfigEnv.PortConfigPtr->PortsConfig[ Port ].PortPinInitialMode, ( Pin << 2u ) );
+                }
+            }
+        }
+    }
 }
 
 
@@ -143,6 +162,31 @@ void Port_RefreshPortDirection( void )
  */
 void Port_SetPinMode( Port_PinType Pin, Port_PinModeType Mode )
 {
-    (void)Pin;
-    (void)Mode;
+    uint8 PortPin        = Pin;
+    uint8 Port           = Pin;
+    uint8 PinMode        = Mode;
+    uint8 AlternFunction = Mode;
+
+    /* Get the pin to configure */
+    Bfx_ClrBitMask_u8u8( &PortPin, 0xf0u );
+    /* Get the port where the pin to configure is set */
+    Bfx_ShiftBitRt_u8u8( &Port, 4u );
+    /* Get the pin to configure */
+    Bfx_ClrBitMask_u8u8( &Mode, 0xf0u );
+    /* Get the port where the pin to configure is set */
+    Bfx_ShiftBitRt_u8u8( &AlternFunction, 4u );
+
+    /*Set Altern mode*/
+    Bfx_PutBits_u32u8u8u32( (uint32 *)&PortConfigEnv.PortRegisters[ Port ].MODER, ( PortPin << 2u ), 2u, PinMode );
+    /*set the new altern mode*/
+    if( Port < 8u )
+    {
+        /*Set the new altern mode for the less significant pins*/
+        Bfx_PutBits_u32u8u8u32( (uint32 *)&PortConfigEnv.PortRegisters[ Port ].AFR[ 0u ], ( PortPin << 4u ), 4u, AlternFunction );
+    }
+    else
+    {
+        /*Set the new altern mode for the most significant pins*/
+        Bfx_PutBits_u32u8u8u32( (uint32 *)&PortConfigEnv.PortRegisters[ Port ].AFR[ 1u ], ( PortPin << 4u ), 4u, AlternFunction );
+    }
 }

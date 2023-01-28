@@ -27,18 +27,18 @@ typedef struct
 #define IOPORT_BASE ( 0x50000000UL ) /*!< IOPORT base address */
 
 /*!< IOPORT */
-#define GPIOA_BASE ( IOPORT_BASE + 0x00000000UL )
-#define GPIOB_BASE ( IOPORT_BASE + 0x00000400UL )
-#define GPIOC_BASE ( IOPORT_BASE + 0x00000800UL )
-#define GPIOD_BASE ( IOPORT_BASE + 0x00000C00UL )
-#define GPIOE_BASE ( IOPORT_BASE + 0x00001000UL )
-#define GPIOF_BASE ( IOPORT_BASE + 0x00001400UL )
+#define PORTA_BASE  ( IOPORT_BASE + 0x00000000UL )
+#define PORTB_BASE  ( IOPORT_BASE + 0x00000400UL )
+#define PORTC_BASE  ( IOPORT_BASE + 0x00000800UL )
+#define PORTD_BASE  ( IOPORT_BASE + 0x00000C00UL )
+#define PORTE_BASE  ( IOPORT_BASE + 0x00001000UL )
+#define PORTF_BASE  ( IOPORT_BASE + 0x00001400UL )
 
-#define GPIOA ( (Port_RegisterType *)GPIOA_BASE )
-#define GPIOB ( (Port_RegisterType *)GPIOB_BASE )
-#define GPIOC ( (Port_RegisterType *)GPIOC_BASE )
-#define GPIOD ( (Port_RegisterType *)GPIOD_BASE )
-#define GPIOE ( (Port_RegisterType *)GPIOE_BASE )
-#define GPIOF ( (Port_RegisterType *)GPIOF_BASE )
+#define PORTA       ( (Port_RegisterType *)PORTA_BASE )
+#define PORTB       ( (Port_RegisterType *)PORTB_BASE )
+#define PORTC       ( (Port_RegisterType *)PORTC_BASE )
+#define PORTD       ( (Port_RegisterType *)PORTD_BASE )
+#define PORTE       ( (Port_RegisterType *)PORTE_BASE )
+#define PORTF       ( (Port_RegisterType *)PORTF_BASE )
 
 #endif /* REGISTERS_H */

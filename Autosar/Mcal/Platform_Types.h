@@ -19,10 +19,10 @@
  * Symbols that specify the CPU type according to its own arquitecture (8, 16, 32 or 64 bits)
  */
 /**@{*/
-#define CPU_TYPE_8  8  /*!< Define a 8 bit CPU, ejem. PIC18F, ATmega, STM8 etc.. */
-#define CPU_TYPE_16 16 /*!< Define a 16 bit CPU, ejem. PIC24F, S12, xMega etc.. */
-#define CPU_TYPE_32 32 /*!< Define a 32 bit CPU, ejem. PIC132MX, STM32, TC2xx etc.. */
-#define CPU_TYPE_64 64 /*!< Define a 64 bit CPU, ejem. ARMv8, x86 etc.. */
+#define CPU_TYPE_8      8  /*!< Define a 8 bit CPU, ejem. PIC18F, ATmega, STM8 etc.. */
+#define CPU_TYPE_16     16 /*!< Define a 16 bit CPU, ejem. PIC24F, S12, xMega etc.. */
+#define CPU_TYPE_32     32 /*!< Define a 32 bit CPU, ejem. PIC132MX, STM32, TC2xx etc.. */
+#define CPU_TYPE_64     64 /*!< Define a 64 bit CPU, ejem. ARMv8, x86 etc.. */
 /**@}*/
 
 
@@ -32,8 +32,8 @@
  * for big endian
  */
 /**@{*/
-#define MSB_FIRST 0 /*!< CPU with most significant bit aranged first */
-#define LSB_FIRST 1 /*!< CPU with least significant bit aranged first */
+#define MSB_FIRST       0 /*!< CPU with most significant bit aranged first */
+#define LSB_FIRST       1 /*!< CPU with least significant bit aranged first */
 /**@}*/
 
 
@@ -53,9 +53,9 @@
  * stm32g0xx wich has a little endian 32 bits CPU
  */
 /**@{*/
-#define CPU_TYPE       CPU_TYPE_32    /*!< Indicate the CPU type (8,16,32 or 64 bits) */
-#define CPU_BIT_ORDER  LSB_FIRST      /*!< CPU bit order (lsb or msb) */
-#define CPU_BYTE_ORDER LOW_BYTE_FIRST /*!< Endianess type little or big */
+#define CPU_TYPE        CPU_TYPE_32    /*!< Indicate the CPU type (8,16,32 or 64 bits) */
+#define CPU_BIT_ORDER   LSB_FIRST      /*!< CPU bit order (lsb or msb) */
+#define CPU_BYTE_ORDER  LOW_BYTE_FIRST /*!< Endianess type little or big */
 /**@}*/
 
 /**

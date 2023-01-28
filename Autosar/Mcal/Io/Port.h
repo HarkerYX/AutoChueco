@@ -22,7 +22,7 @@
  * MCU port and the least significant bits indicating the assigned pin number (values ranging from 
  * 0 to 15).
  */
-typedef uint32 Port_PinType;
+typedef uint8 Port_PinType;
 
 /**
  * @brief  Possible directions of a port pin when confired as Digital pins.
@@ -44,7 +44,28 @@ typedef enum Port_PinDirectionType_Tag
  * pin mode (input/output, output, alternate, or analog) and the least significant bits indicating 
  * the alternate function (values ranging from 0 to 7).
  */
-typedef uint32 Port_PinModeType;
+typedef uint8 Port_PinModeType;
+
+/**
+ * @brief  Type of the external data structure containing the initialization data for this module.
+ *
+ * Each pin available in the microcontroller shall be assigned this structur, an array with the
+ * initial values must be defined in the Port_Cfg.c file
+ */
+typedef struct Port_PortsConfigType_Tag
+{
+    uint8 PortNumber; /**< Pin name assigned with port and pin information embedded*/
+    uint16 AvailablePins;
+    uint32 PortPinInitialMode; /**< The fucntional mode wich will be configured */
+    uint32 PortPinOuputDrive;  /**< Pin as push-pull or open collector */
+    uint32 PortPinSpeed;       /**< Pin frequency configuration */
+    uint32 PortPinLevelValue;  /**< Initial pin digital level value if applicable*/
+    uint32 PortPinResistor;    /**< Internal resistor configuration, pullup, pulldown or none */
+    uint32 PortPinAltH;
+    uint32 PortPinAltL;
+    uint16 DirectionChangeable;
+    uint16 ModeChangeable;
+} Port_PortsConfigType;
 
 /**
  * @brief Definition of the external data structure containing the initialization data for the Port.

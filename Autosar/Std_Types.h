@@ -101,7 +101,7 @@ typedef struct Std_TransformerError_Tag
 #define E_OK              0u      /*!< OK return value */
 typedef unsigned char StatusType; /*!< OSEK compliance */
 #endif
-#define E_NOT_OK 1u /*!< Error return value */
+#define E_NOT_OK   1u /*!< Error return value */
 /**@}*/
 
 
@@ -110,8 +110,8 @@ typedef unsigned char StatusType; /*!< OSEK compliance */
  * Definitions to identify signal or devices physical states
  */
 /**@{*/
-#define STD_HIGH 1u /*!< Physical state 5V or 3.3V */
-#define STD_LOW  0u /*!< Physical state 0V */
+#define STD_HIGH   1u /*!< Physical state 5V or 3.3V */
+#define STD_LOW    0u /*!< Physical state 0V */
 /**@}*/
 
 
@@ -130,15 +130,15 @@ typedef unsigned char StatusType; /*!< OSEK compliance */
  * Definitions to identify is a signal or device is ON or OFF
  */
 /**@{*/
-#define STD_ON  1u /*!< Binary state ON */
-#define STD_OFF 0u /*!< Binary state OFF */
+#define STD_ON     1u /*!< Binary state ON */
+#define STD_OFF    0u /*!< Binary state OFF */
 /**@}*/
 
 
 /**
  * @brief   null pointer definition
  */
-#define NULL_PTR ( (void *)0 )
+#define NULL_PTR   ( (void *)0 )
 
 
 #endif /* STD_TYPES_H */
