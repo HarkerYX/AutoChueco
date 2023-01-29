@@ -7,7 +7,7 @@ int main( void )
     Port_Init( &PortConfig );
     while( 1u )
     {
-        Dio_FlipChannel();
+        Dio_FlipChannel( DIO_RED_LED );
     }
 
     return 0u;

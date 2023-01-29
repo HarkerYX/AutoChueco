@@ -6,3 +6,4 @@ comparePointers:startup.c
 misra-c2012-8.4:startup.c
 
 misra-c2012-2.5:Autosar/Mcal/Io/Port_Defines.h
+misra-c2012-2.5:Autosar/Mcal/Io/Dio_Defines.h
