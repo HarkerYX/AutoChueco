@@ -20,12 +20,16 @@
  * @brief  **Returns the value of the specified DIO channel**
  *
  * The function returns the logic pin state of the port pin specified by the parameter
- * @DioChannelType
+ * #DioChannelType
  *
  * @param  ChannelId ID of DIO channel, LSBs represent the pin while the 2MSBs the Port
  *
  * @retval STD_HIGH The physical level of the corresponding Pin is STD_HIGH
  *         STD_LOW The physical level of the corresponding Pin is STD_LOW
+ *
+ * @code
+ *    Dio_LevelType Level = Dio_ReadChannel( DIO_RED_LED );
+ * @endcode
  */
 Dio_LevelType Dio_ReadChannel( Dio_ChannelType ChannelId )
 {
@@ -37,12 +41,14 @@ Dio_LevelType Dio_ReadChannel( Dio_ChannelType ChannelId )
 /**
  * @brief  **Service to set a level of a channel**
  *
- * The function set or reset the specified pin @DioChannelType
+ * The function set or reset the specified pin #DioChannelType
  *
  * @param  ChannelId ID of DIO channel, LSBs represent the pin while the 2MSBs the Port
- * @param  Level Value to be written
+ * @param  Level Value to be written STD_LOW or STD_HIGH
  *
- * @retval None
+ * @code
+ *      Dio_WriteChannel( DIO_RED_LED, STD_LOW );
+ * @endcode
  */
 void Dio_WriteChannel( Dio_ChannelType ChannelId, Dio_LevelType Level )
 {
@@ -59,6 +65,10 @@ void Dio_WriteChannel( Dio_ChannelType ChannelId, Dio_LevelType Level )
  * @param  PortId Port to read
  *
  * @retval Dio_PortLevelType Level of all channels of that port
+ *
+ * @code
+ *      Dio_PortLevel Value = Dio_ReadPort( DIO_PORT_PA );
+ * @endcode
  */
 Dio_PortLevelType Dio_ReadPort( Dio_PortType PortId )
 {
@@ -75,7 +85,9 @@ Dio_PortLevelType Dio_ReadPort( Dio_PortType PortId )
  * @param  PortId ID of DIO channel
  * @param  Level Value to be written
  *
- * @retval None
+ * @code
+ *      Dio_WritePort( DIO_PORT_A, 0xAA55 );
+ * @endcode
  */
 void Dio_WritePort( Dio_PortType PortId, Dio_PortLevelType Level )
 {
@@ -93,6 +105,17 @@ void Dio_WritePort( Dio_PortType PortId, Dio_PortLevelType Level )
  * @param  ChannelGroupIdPtr Pointer to ChannelGroup
  *
  * @retval Dio_PortLevelType Level of a subset of the adjoining bits of a port
+ *
+ * @code
+ *      Dio_ChannelGroupType LedBar =
+ *      {
+ *          .Mask = 0x00ffu,
+ *          .Offset = 2u,
+ *          .Port = DIO_PORT_LEDS
+ *      }
+ *
+ *      Dio_PortLevelType Leds = Dio_ReadChannelGroup( &LedBar );
+ * @endcode
  */
 Dio_PortLevelType Dio_ReadChannelGroup( const Dio_ChannelGroupType *ChannelGroupIdPtr )
 {
@@ -110,7 +133,16 @@ Dio_PortLevelType Dio_ReadChannelGroup( const Dio_ChannelGroupType *ChannelGroup
  * @param  ChannelGroupIdPtr Pointer to ChannelGroup
  * @param  Level Value to be written
  *
- * @retval None
+ * @code
+ *      Dio_ChannelGroupType LedBar =
+ *      {
+ *          .Mask = 0x00ffu,
+ *          .Offset = 2u,
+ *          .Port = DIO_PORT_LEDS
+ *      }
+ *
+ *      Dio_ReadChannelGroup( &LedBar, 0x55 );
+ * @endcode
  */
 void Dio_WriteChannelGroup( const Dio_ChannelGroupType *ChannelGroupIdPtr, Dio_PortLevelType Level )
 {
@@ -129,6 +161,10 @@ void Dio_WriteChannelGroup( const Dio_ChannelGroupType *ChannelGroupIdPtr, Dio_P
  *
  * @retval STD_HIGH The physical level of the corresponding Pin is STD_HIGH
  *         STD_LOW The physical level of the corresponding Pin is STD_LOW
+ *
+ * @code
+ *      Dio_LevelType Led = Dio_FlipChannel( DIO_RED_LED )
+ * @endcode
  */
 Dio_LevelType Dio_FlipChannel( Dio_ChannelType ChannelId )
 {
@@ -147,7 +183,9 @@ Dio_LevelType Dio_FlipChannel( Dio_ChannelType ChannelId )
  * @param  Level Value to be written
  * @param  Mask Channels to be masked in the port
  *
- * @retval None
+ * @code
+ *      Dio_MaskedWritePort( DIO_PORT_LEDS, 0xffu, 0x55 )
+ * @endcode
  */
 void Dio_MaskedWritePort( Dio_PortType PortId, Dio_PortLevelType Level, Dio_PortLevelType Mask )
 {
