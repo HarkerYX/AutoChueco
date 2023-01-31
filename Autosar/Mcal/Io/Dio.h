@@ -15,6 +15,8 @@
 #ifndef DIO_H
 #define DIO_H
 
+#include "Dio_Defines.h"
+
 /**
  * @brief  Defines the Dio_ChannelType data type.
  *
