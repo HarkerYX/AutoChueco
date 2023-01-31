@@ -33,4 +33,33 @@ extern Port_RegisterType PORTF_BASE;
 #define PORTE ( (Port_RegisterType *)&PORTE_BASE )
 #define PORTF ( (Port_RegisterType *)&PORTF_BASE )
 
+
+/**
+ * @brief General Purpose I/O
+ */
+typedef struct
+{
+    volatile uint32 Reserve1[ 4 ];
+    volatile uint32 IDR;  /*!< GPIO port input data register,         Address offset: 0x10      */
+    volatile uint32 ODR;  /*!< GPIO port output data register,        Address offset: 0x14      */
+    volatile uint32 BSRR; /*!< GPIO port bit set/reset  register,     Address offset: 0x18      */
+    volatile uint32 Reserve2[ 3 ];
+    volatile uint32 BRR; /*!< GPIO Bit Reset register,               Address offset: 0x28      */
+} Dio_RegisterType;
+
+/*!< IOPORT */
+extern Dio_RegisterType DIOA_BASE;
+extern Dio_RegisterType DIOB_BASE;
+extern Dio_RegisterType DIOC_BASE;
+extern Dio_RegisterType DIOD_BASE;
+extern Dio_RegisterType DIOE_BASE;
+extern Dio_RegisterType DIOF_BASE;
+
+#define DIOA ( (Dio_RegisterType *)&DIOA_BASE )
+#define DIOB ( (Dio_RegisterType *)&DIOB_BASE )
+#define DIOC ( (Dio_RegisterType *)&DIOC_BASE )
+#define DIOD ( (Dio_RegisterType *)&DIOD_BASE )
+#define DIOE ( (Dio_RegisterType *)&DIOE_BASE )
+#define DIOF ( (Dio_RegisterType *)&DIOF_BASE )
+
 #endif /* REGISTERS_H */
