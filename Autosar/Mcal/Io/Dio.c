@@ -39,7 +39,7 @@ Dio_LevelType Dio_ReadChannel( Dio_ChannelType ChannelId )
     uint8 Pin                       = ChannelId;
     Dio_RegisterType *DiosBaseAddrs = DIOA;
 
-    Bfx_ClrBitMask_u8u8( &Pin, 0xfu );
+    Bfx_ClrBitMask_u8u8( &Pin, 0xf0u );
     Bfx_ShiftBitRt_u8u8( &Port, 4u );
 
     return Bfx_GetBit_u32u8_u8( DiosBaseAddrs[ Port ].IDR, Pin );
@@ -64,7 +64,7 @@ void Dio_WriteChannel( Dio_ChannelType ChannelId, Dio_LevelType Level )
     uint8 Pin                       = ChannelId;
     Dio_RegisterType *DiosBaseAddrs = DIOA;
 
-    Bfx_ClrBitMask_u8u8( &Pin, 0xfu );
+    Bfx_ClrBitMask_u8u8( &Pin, 0xf0u );
     Bfx_ShiftBitRt_u8u8( &Port, 4u );
 
     Bfx_PutBit_u32u8u8( (uint32 *)&DiosBaseAddrs[ Port ].ODR, Pin, Level );
@@ -195,6 +195,9 @@ Dio_LevelType Dio_FlipChannel( Dio_ChannelType ChannelId )
     Dio_PortType Port               = ChannelId;
     uint8 Pin                       = ChannelId;
     Dio_RegisterType *DiosBaseAddrs = DIOA;
+
+    Bfx_ClrBitMask_u8u8( &Pin, 0xf0u );
+    Bfx_ShiftBitRt_u8u8( &Port, 4u );
 
     Bfx_ToggleBitMask_u32u32( (uint32 *)&DiosBaseAddrs[ Port ].ODR, ( 1u << Pin ) );
 
