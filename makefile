@@ -4,7 +4,7 @@ TARGET = mcal
 #---Files to compile
 SRCS = main.c startup.c
 #---Actual fremawork sources
-SRCF = Bfx_bit8.c Bfx_bit32.c Port.c Port_PBcfg.c Dio.c
+SRCF = Bfx_bit8.c Bfx_bit32.c Port.c Port_PBcfg.c Dio.c Det.c
 #---Unit testing files
 SRCT = unity.c Test_Bfx_bit8.c Test_Bfx_bit32.c
 
@@ -16,6 +16,7 @@ SRC_PATHS  = .
 SRC_PATHS += Autosar/Libraries
 SRC_PATHS += Autosar/Mcal
 SRC_PATHS += Autosar/Mcal/Io
+SRC_PATHS += Autosar/SysServices
 SRC_PATHS += Cfg
 SRC_PATHS += Utest
 #direcotrios con archivos .h
@@ -24,6 +25,7 @@ INC_PATHS += Autosar
 INC_PATHS += Autosar/Libraries
 INC_PATHS += Autosar/Mcal
 INC_PATHS += Autosar/Mcal/Io
+INC_PATHS += Autosar/SysServices
 INC_PATHS += Cfg
 INC_PATHS += Utest
 
