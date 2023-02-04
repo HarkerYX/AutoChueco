@@ -1,33 +1,22 @@
-This is the title {#mainpage}
-============
-
-This a subtitle
--------------
-
-Description with **bold text** and *cursive*
-
-- bullets
-- bullets
-
-1. num bullets
-2. num bullets
+AutoChueco
+=========
 
 
-> This is just a nice quote like the ones you can find in social media
+This is simply an AUTOSAR implementation with no other objective than to create something functional enough to be used for academic purposes and possibly something else.
 
-This is how we can insert some code snippets
+We have chosen to develop this project using the STM32G0xx microcontroller as a starting point, due to its simple architecture and widespread availability. All code is being written from scratch to avoid any license compliance issues with third-party software.
 
-```C
-void function( void )
-{
+The language of choice for development is Python, as we plan to create a configuration generator based on a command-line approach, with the possibility of creating a GUI later on.
 
-}
-```
+Deviations:
+-------
 
-Some images can also be inserted 
+Our aim is to stick as closely as possible to the official standard, but some liberties will be taken for the sake of our mental well-being. For example, we plan to replace the XML file with YAML in order to enhance human readability and delay the implementation of the GUI for software unit configuration. However, the architecture will be modular enough for someone to add XML support and an Eclipse IDE, just not us.
 
-![modular](https://media-exp1.licdn.com/dms/image/C4E0BAQF8Mlpq54uB3A/company-logo_200_200/0/1632781574324?e=1669248000&v=beta&t=atxklhEXRm8FXePXyjnOV7z83zC7qdryBUWngOacWWQ)
+To-Do List:
+-----
 
-And links
-
-For more visit this nice [cheat sheet](https://www.markdownguide.org/cheat-sheet/)
+- Change the name, as "Chueco" is a temporary placeholder and the Spanish word for "bent" or "broken".
+- Split the project into multiple repositories, as this is definitely something that must be done. For now, we will start with one repository.
+- Evaluate and possibly change some of the tools used, such as the build tools or the unit testing framework.
+- Add support for various architectures and compilers.
